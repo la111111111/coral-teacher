@@ -3,115 +3,349 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="theme-color" content="#0f766e">
 <title>珊瑚小助 · 老師版</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Segoe UI,Microsoft JhengHei,system-ui,sans-serif;background:#f5f7fb;color:#1e293b;padding:12px}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid #e2e8f0;border-radius:999px;background:#fff;color:#64748b;cursor:pointer;font-size:.75rem;font-weight:700;transition:.15s}
-.btn:hover{border-color:#0f766e;color:#0f766e;background:#e6f7f4}
-.btn-primary{background:#0f766e;color:#fff;border-color:#0f766e}
-.btn-primary:hover{background:#0b5e56;color:#fff}
-.btn-ai{color:#8b5cf6;border-color:rgba(139,92,246,.4);background:rgba(139,92,246,.05)}
-.btn-sm{padding:3px 10px;font-size:.65rem}
-.topbar{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px}
-.logo{font-weight:900;font-size:.95rem;color:#0f766e;display:flex;align-items:center;gap:8px}
-.logo-icon{width:32px;height:32px;border-radius:10px;background:#0f766e;color:#fff;display:grid;place-items:center}
-.toolbar{display:flex;gap:5px;flex-wrap:wrap;align-items:center}
-.content{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:12px;min-height:200px}
-.file-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
-.file-card{border:1px solid #e2e8f0;border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer}
-.file-card:hover{box-shadow:0 2px 10px rgba(0,0,0,.08);transform:translateY(-2px)}
-.file-card .icon{font-size:1.2rem;margin-bottom:2px}
-.file-card .name{font-weight:700;font-size:.7rem;word-break:break-word}
-.file-card .meta{color:#64748b;font-size:.55rem}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:9999;align-items:center;justify-content:center;padding:16px}
-.modal.show{display:flex}
-.modal-box{background:#fff;border-radius:14px;max-width:520px;width:100%;padding:20px;max-height:90vh;overflow:auto}
-.modal-box.wide{max-width:700px}
-.modal-header{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:.9rem;margin-bottom:12px}
-.input{width:100%;border:1px solid #e2e8f0;border-radius:999px;padding:6px 14px;font-size:.75rem;outline:none}
-.input:focus{border-color:#0f766e}
-.form-group{margin-bottom:10px}
-.form-group label{font-size:.7rem;font-weight:700;color:#64748b;display:block;margin-bottom:3px}
-.footer{display:flex;justify-content:flex-end;gap:6px;margin-top:12px}
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;border-radius:999px;padding:6px 16px;font-size:.75rem;opacity:0;transition:.2s;z-index:99999}
-.toast.show{opacity:1}
-.badge{position:relative}
-.badge .num{position:absolute;top:-6px;right:-6px;background:#ef4444;color:#fff;font-size:.5rem;font-weight:900;min-width:16px;height:16px;border-radius:999px;display:flex;align-items:center;justify-content:center;padding:0 4px}
-.badge .num.hide{display:none}
-.send-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:8px 0}
-.send-row select{height:30px;border:1px solid #e2e8f0;border-radius:999px;padding:0 10px;font-size:.65rem;flex:0 0 110px}
-.send-row input{flex:1;min-width:100px;height:30px;border:1px solid #e2e8f0;border-radius:999px;padding:0 12px;font-size:.65rem}
-.send-status{font-size:.6rem;padding:2px 10px;border-radius:999px;font-weight:700}
-.send-status.ok{background:#d1fae5;color:#065f46}
-.send-status.err{background:#fee2e2;color:#991b1b}
-.send-status.wait{background:#fef3c7;color:#92400e}
-.viewer-toolbar{padding:4px 10px;border-bottom:1px solid #e2e8f0;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
-.viewer-content{padding:12px;min-height:150px;font-size:.85rem;line-height:1.6}
-.viewer-content.rich{white-space:normal}
-.viewer-content.edit-mode{border:1px solid #e2e8f0;border-radius:8px;background:#f8fafc;padding:10px}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --bg: #f5f7fb; --surface: #ffffff; --surface2: #f8fafc; --text: #1e293b; --text2: #64748b;
+  --border: #e2e8f0; --accent: #0f766e; --accent-light: #e6f7f4;
+  --danger: #ef4444; --warning: #f59e0b; --success: #10b981; --info: #3b82f6;
+  --purple: #8b5cf6; --shadow: 0 18px 45px rgba(15,23,42,0.14);
+  --notification-bg: #fef3c7; --notification-border: #f59e0b;
+}
+[data-theme="dark"] {
+  --bg: #0f172a; --surface: #1e293b; --surface2: #111827; --text: #f1f5f9; --text2: #94a3b8;
+  --border: #334155; --accent: #2dd4bf; --accent-light: #134e4a; --shadow: 0 18px 45px rgba(0,0,0,0.35);
+  --notification-bg: #78350f; --notification-border: #f59e0b;
+}
+body { font-family: "Segoe UI", "Microsoft JhengHei", system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+button, input, select, textarea { font-family: inherit; }
+.app { display: flex; min-height: 100vh; }
+.sidebar { width: 220px; background: var(--surface); border-right: 1px solid var(--border); padding: 16px; display: flex; flex-direction: column; flex-shrink: 0; z-index: 20; }
+.logo { display: flex; align-items: center; gap: 10px; color: var(--accent); font-size: 1rem; font-weight: 900; padding: 8px 8px 18px; }
+.logo-icon { width: 36px; height: 36px; border-radius: 12px; background: var(--accent); color: white; display: grid; place-items: center; }
+.nav-section { margin-bottom: 16px; }
+.nav-title { font-size: 0.68rem; color: var(--text2); font-weight: 850; text-transform: uppercase; padding: 6px 8px 4px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 10px; cursor: pointer; font-size: 0.82rem; font-weight: 700; color: var(--text); transition: 0.15s; user-select: none; }
+.nav-item i { width: 18px; color: var(--text2); text-align: center; }
+.nav-item:hover { background: var(--bg); }
+.nav-item.active { background: var(--accent-light); color: var(--accent); }
+.nav-item.active i { color: var(--accent); }
+.sidebar-footer { margin-top: auto; display: grid; gap: 8px; }
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 10px 16px; display: grid; gap: 8px; }
+.top-row { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.page-title h1 { font-size: 1rem; font-weight: 900; display: flex; align-items: center; gap: 8px; }
+.tool-group { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.btn { border: 1px solid var(--border); background: transparent; color: var(--text2); padding: 5px 12px; border-radius: 999px; cursor: pointer; font-size: 0.72rem; font-weight: 750; display: inline-flex; align-items: center; justify-content: center; gap: 6px; transition: 0.15s; white-space: nowrap; }
+.btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+.btn.primary:hover { background: #0b5e56; color: white; }
+.btn.ai { color: var(--purple); border-color: rgba(139,92,246,0.4); background: rgba(139,92,246,0.05); }
+.btn.danger { color: var(--danger); border-color: rgba(239,68,68,0.4); }
+.filters { display: grid; grid-template-columns: minmax(140px, 1fr) 110px 110px; gap: 8px; }
+.search-wrap { position: relative; }
+.search-wrap i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text2); font-size: 0.75rem; }
+.input, .select { width: 100%; border: 1px solid var(--border); background: var(--bg); color: var(--text); border-radius: 999px; padding: 6px 12px; outline: none; font-size: 0.75rem; }
+.search-wrap .input { padding-left: 34px; }
+.ai-panel { display: none; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+.ai-panel.active { display: grid; }
+.content { flex: 1; padding: 12px; }
+.view { display: none; }
+.view.active { display: block; }
+.kanban-board { display: grid; grid-template-columns: repeat(5, minmax(200px, 1fr)); gap: 10px; align-items: start; }
+.kanban-column { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 8px; min-height: 400px; display: flex; flex-direction: column; }
+.kanban-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.kanban-title strong { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 900; }
+.count { min-width: 24px; height: 22px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); display: grid; place-items: center; color: var(--text2); font-size: 0.65rem; font-weight: 850; }
+.kanban-list { display: flex; flex-direction: column; gap: 6px; min-height: 100px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 12px; padding: 8px; cursor: grab; transition: 0.15s; user-select: none; }
+.card:hover { transform: translateY(-1px); box-shadow: var(--shadow); }
+.card.priority-high { border-left-color: var(--danger); }
+.card.priority-mid { border-left-color: var(--warning); }
+.card.priority-low { border-left-color: var(--info); }
+.card-top { display: flex; gap: 6px; align-items: flex-start; }
+.file-icon-sm { width: 30px; height: 30px; border-radius: 8px; background: var(--bg); display: grid; place-items: center; flex-shrink: 0; font-size: 0.9rem; }
+.card-main { flex: 1; min-width: 0; }
+.card-title { font-size: 0.75rem; font-weight: 900; line-height: 1.3; word-break: break-word; }
+.card-meta { color: var(--text2); font-size: 0.6rem; margin-top: 2px; }
+.preview { margin-top: 4px; color: var(--text2); font-size: 0.65rem; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.tags { display: flex; flex-wrap: wrap; gap: 3px; margin-top: 6px; }
+.tag { background: var(--accent-light); color: var(--accent); padding: 1px 6px; border-radius: 999px; font-size: 0.55rem; font-weight: 850; }
+.tag.gray { background: var(--bg); color: var(--text2); border: 1px solid var(--border); }
+.tag.red { background: #fee2e2; color: #991b1b; }
+.tag.orange { background: #fef3c7; color: #92400e; }
+.due { margin-top: 4px; font-size: 0.6rem; color: var(--text2); display: flex; align-items: center; gap: 4px; }
+.due.overdue { color: var(--danger); font-weight: 850; }
+.file-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.file-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 6px 8px; text-align: center; cursor: pointer; transition: 0.15s; user-select: none; }
+.file-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.file-card.selected { border-color: var(--accent); background: var(--accent-light); }
+.file-card .file-icon-sm { margin: 0 auto 4px; font-size: 1.2rem; width: 32px; height: 32px; border-radius: 8px; background: var(--bg); display: grid; place-items: center; }
+.file-name { font-size: 0.7rem; font-weight: 850; word-break: break-word; line-height: 1.3; }
+.file-meta { color: var(--text2); font-size: 0.55rem; margin-top: 2px; }
+.calendar-box { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 10px; overflow-x: auto; }
+.cal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
+.cal-header h2 { font-size: 0.9rem; font-weight: 900; }
+.cal-nav { display: flex; gap: 4px; }
+.cal-weekdays, .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); min-width: 600px; }
+.cal-weekdays { text-align: center; color: var(--text2); font-size: 0.65rem; font-weight: 850; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+.cal-grid { border-left: 1px solid var(--border); border-top: 1px solid var(--border); }
+.cal-cell { min-height: 70px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 4px; background: var(--surface); }
+.cal-cell.today { background: var(--accent-light); }
+.cal-date { font-size: 0.65rem; font-weight: 900; margin-bottom: 2px; }
+.cal-task { font-size: 0.55rem; padding: 1px 4px; border-radius: 3px; background: #dbeafe; color: #1d4ed8; margin-bottom: 2px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; cursor: pointer; }
+.cal-task.overdue { background: #fee2e2; color: #991b1b; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 10000; align-items: center; justify-content: center; padding: 10px; }
+.modal-overlay.active { display: flex; }
+.dialog { background: var(--surface); color: var(--text); border-radius: 16px; width: 880px; max-width: 95vw; max-height: 90vh; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+.dialog.wide { width: 1000px; }
+.dialog.small { width: 460px; }
+.dialog.medium { width: 550px; max-height: 80vh; }
+.dialog-header { padding: 10px 16px; background: var(--bg); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.dialog-title { font-weight: 900; display: flex; align-items: center; gap: 8px; min-width: 0; font-size: 0.85rem; }
+.dialog-title span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.viewer-toolbar { padding: 6px 14px; border-bottom: 1px solid var(--border); display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.viewer-content { flex: 1; min-height: 280px; overflow: auto; padding: 12px; line-height: 1.6; font-size: 0.85rem; }
+.viewer-content.rich { white-space: normal; }
+.viewer-content.edit-mode { margin: 10px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); outline: none; padding: 12px; }
+.dialog-footer { padding: 8px 14px; border-top: 1px solid var(--border); background: var(--bg); display: flex; justify-content: flex-end; gap: 6px; flex-wrap: wrap; }
+.form-body { padding: 14px; overflow-y: auto; }
+.form-grid { display: grid; grid-template-columns: 80px 1fr; gap: 6px 10px; align-items: center; font-size: 0.75rem; }
+.form-label { color: var(--text2); font-weight: 850; }
+.editor-toolbar { padding: 4px 10px; border-bottom: 1px solid var(--border); display: none; gap: 4px; flex-wrap: wrap; background: var(--surface2); align-items: center; }
+.editor-toolbar.active { display: flex; }
+.editor-toolbar .btn { font-size: 0.6rem; padding: 3px 7px; border-radius: 4px; border: 1px solid transparent; background: transparent; color: var(--text2); cursor: pointer; }
+.editor-toolbar .btn:hover { background: var(--accent-light); color: var(--accent); }
+.editor-toolbar select { height: 24px; border-radius: 4px; border: 1px solid var(--border); background: var(--bg); color: var(--text); padding: 0 4px; font-size: 0.55rem; outline: none; max-width: 60px; }
+.editor-toolbar .color-input { width: 22px; height: 22px; border: 1px solid var(--border); border-radius: 3px; background: transparent; padding: 1px; cursor: pointer; }
+.editor-toolbar .color-input::-webkit-color-swatch-wrapper { padding: 0; }
+.editor-toolbar .color-input::-webkit-color-swatch { border: 1px solid var(--border); border-radius: 2px; }
+.more-menu-wrapper { position: relative; display: inline-flex; }
+.more-menu-toggle { font-size: 0.6rem; padding: 3px 7px; border-radius: 4px; border: 1px solid var(--border); background: var(--surface); color: var(--text2); cursor: pointer; display: flex; align-items: center; gap: 2px; }
+.more-menu-toggle:hover { background: var(--accent-light); color: var(--accent); }
+.more-menu-dropdown { display: none; position: absolute; top: calc(100% + 4px); right: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); padding: 4px 0; min-width: 160px; z-index: 99999; max-height: 300px; overflow-y: auto; }
+.more-menu-dropdown.show { display: block; }
+.more-menu-dropdown .btn { display: flex; width: 100%; border: none; border-radius: 0; padding: 5px 12px; font-size: 0.65rem; justify-content: flex-start; background: transparent; color: var(--text); gap: 8px; }
+.more-menu-dropdown .btn:hover { background: var(--accent-light); color: var(--accent); }
+.more-menu-dropdown .separator { height: 1px; background: var(--border); margin: 3px 0; }
+.more-menu-dropdown .btn i { width: 16px; text-align: center; }
+.ctx-menu { display: none; position: fixed; z-index: 11000; min-width: 200px; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--shadow); border-radius: 10px; overflow: hidden; padding: 4px 0; }
+.ctx-header { padding: 4px 14px; color: var(--text2); font-size: 0.6rem; font-weight: 850; text-transform: uppercase; }
+.ctx-item { padding: 6px 14px; display: flex; align-items: center; gap: 8px; font-size: 0.7rem; cursor: pointer; }
+.ctx-item:hover { background: var(--bg); color: var(--accent); }
+.ctx-item.danger:hover { color: var(--danger); background: #fee2e2; }
+.ctx-divider { height: 1px; background: var(--border); margin: 2px 0; }
+.toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--surface); border-radius: 999px; padding: 6px 14px; font-size: 0.72rem; opacity: 0; pointer-events: none; transition: 0.2s; z-index: 12000; box-shadow: var(--shadow); }
+.toast.show { opacity: 1; }
+.status-bar { border-top: 1px solid var(--border); background: var(--surface); color: var(--text2); height: 26px; padding: 0 14px; display: flex; align-items: center; justify-content: space-between; font-size: 0.65rem; gap: 8px; }
+.hw-app { padding: 6px 8px; background: var(--bg); }
+.hw-top { display: flex; flex-wrap: wrap; gap: 4px; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.hw-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 4px 8px; margin-bottom: 4px; }
+.hw-panel:last-child { margin-bottom: 0; }
+.hw-chips { display: flex; gap: 3px; flex-wrap: wrap; }
+.hw-chip { border: 1px solid var(--border); border-radius: 999px; padding: 2px 8px; cursor: pointer; font-size: 0.6rem; background: var(--surface); color: var(--text2); font-weight: 700; }
+.hw-chip.active { color: var(--accent); border-color: var(--accent); background: var(--accent-light); }
+.hw-subjects { display: flex; gap: 3px; flex-wrap: wrap; }
+.hw-subject { font-size: 0.6rem; border: 1px solid var(--border); border-radius: 999px; padding: 2px 6px; cursor: pointer; background: var(--bg); }
+.hw-subject.active { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+.hw-table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+.hw-table { width: 100%; min-width: 500px; border-collapse: collapse; font-size: 0.6rem; }
+.hw-table th, .hw-table td { border-bottom: 1px solid var(--border); padding: 2px 4px; text-align: center; }
+.hw-table th { background: var(--surface2); color: var(--text2); font-size: 0.55rem; }
+.hw-name { position: sticky; left: 0; background: var(--surface); text-align: left !important; min-width: 60px; z-index: 2; padding-left: 4px !important; }
+.hw-cell { cursor: pointer; border-radius: 4px; font-weight: 900; font-size: 0.75rem; padding: 1px 4px; }
+.hw-cell[data-status="submitted"] { color: var(--success); }
+.hw-cell[data-status="late"] { color: var(--warning); }
+.hw-cell[data-status="absent"] { color: var(--danger); }
+.hw-cell[data-status="empty"] { color: var(--text2); opacity: 0.4; }
+.hw-report { font-size: 0.65rem; line-height: 1.3; }
+.hw-row { display: flex; gap: 4px; flex-wrap: wrap; align-items: center; }
+.hw-ai-box { display: grid; grid-template-columns: 1fr auto; gap: 4px; margin-top: 4px; }
+.inline-confirm { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px; text-align: center; }
+.inline-confirm p { margin-bottom: 10px; font-size: 0.8rem; }
+.inline-confirm .icon-big { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+.notification-btn { position: relative; background: transparent; border: none; color: var(--text2); font-size: 1.1rem; cursor: pointer; padding: 4px 6px; border-radius: 999px; transition: 0.15s; display: flex; align-items: center; justify-content: center; }
+.notification-btn:hover { background: var(--bg); color: var(--accent); }
+.notification-badge { position: absolute; top: -4px; right: -6px; background: var(--danger); color: white; font-size: 0.5rem; font-weight: 900; min-width: 18px; height: 18px; border-radius: 999px; display: flex; align-items: center; justify-content: center; padding: 0 4px; border: 2px solid var(--surface); transition: 0.2s; }
+.notification-badge.hidden { display: none; }
+.notification-list { max-height: 350px; overflow-y: auto; padding: 4px 0; }
+.notification-item { display: flex; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--border); transition: 0.1s; cursor: default; align-items: flex-start; }
+.notification-item:last-child { border-bottom: none; }
+.notification-item:hover { background: var(--bg); }
+.notification-item.unread { background: var(--notification-bg); border-left: 4px solid var(--notification-border); }
+.notification-item .n-icon { font-size: 1rem; width: 24px; text-align: center; flex-shrink: 0; margin-top: 1px; }
+.notification-item .n-content { flex: 1; min-width: 0; }
+.notification-item .n-content .n-title { font-size: 0.7rem; font-weight: 850; color: var(--text); }
+.notification-item .n-content .n-message { font-size: 0.65rem; color: var(--text2); margin-top: 1px; line-height: 1.4; }
+.notification-item .n-content .n-time { font-size: 0.5rem; color: var(--text2); opacity: 0.7; margin-top: 2px; }
+.notification-item .n-mark-read { font-size: 0.55rem; color: var(--accent); cursor: pointer; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); flex-shrink: 0; }
+.notification-item .n-mark-read:hover { background: var(--accent-light); }
+.notification-empty { text-align: center; padding: 30px 20px; color: var(--text2); font-size: 0.8rem; }
+.notification-empty i { font-size: 2rem; display: block; margin-bottom: 10px; opacity: 0.5; }
+.notification-send-area { padding: 8px 12px; border-top: 1px solid var(--border); background: var(--bg); }
+.notification-send-area .send-row { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.notification-send-area .send-row select { height: 30px; border: 1px solid var(--border); border-radius: 999px; padding: 0 12px; font-size: 0.65rem; background: var(--bg); color: var(--text); outline: none; flex: 0 0 110px; }
+.notification-send-area .send-row input { flex: 1; min-width: 120px; height: 30px; border: 1px solid var(--border); border-radius: 999px; padding: 0 14px; font-size: 0.65rem; background: var(--bg); color: var(--text); outline: none; }
+.notification-send-area .send-row .btn { height: 30px; font-size: 0.65rem; padding: 0 14px; }
+.send-status { font-size: 0.6rem; padding: 2px 10px; border-radius: 999px; font-weight: 700; }
+.send-status.success { background: #d1fae5; color: #065f46; }
+.send-status.error { background: #fee2e2; color: #991b1b; }
+.send-status.sending { background: #fef3c7; color: #92400e; }
+.save-top-right { position: sticky; top: 0; z-index: 10; background: var(--bg); padding: 4px 0; display: flex; justify-content: flex-end; gap: 6px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+.edit-hint { background: var(--edit-green); border: 2px solid var(--edit-green-border); border-radius: 999px; padding: 2px 14px; font-size: 0.55rem; font-weight: 700; color: var(--edit-green-border); }
+.readonly-hint { background: var(--text2); color: white; border-radius: 999px; padding: 2px 14px; font-size: 0.55rem; font-weight: 700; }
+@media (max-width: 1100px) { .kanban-board { display: flex; overflow-x: auto; } .kanban-column { min-width: 240px; } .filters { grid-template-columns: 1fr 100px 100px; } }
+@media (max-width: 720px) {
+  .app { flex-direction: column; }
+  .sidebar { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; align-items: center; gap: 6px; overflow-x: auto; padding: 8px; }
+  .filters { grid-template-columns: 1fr; }
+  .dialog { width: 96vw; height: 92vh; }
+  .form-grid { grid-template-columns: 1fr; }
+  .notification-send-area .send-row { flex-direction: column; }
+  .notification-send-area .send-row select { flex: 1; width: 100%; }
+  .notification-send-area .send-row input { width: 100%; }
+}
 </style>
 </head>
 <body>
-
-<div class="topbar">
-  <div class="logo"><div class="logo-icon"><i class="fa-solid fa-school"></i></div>珊瑚小助 · 老師版</div>
-  <div class="toolbar">
-    <button class="btn btn-sm badge" id="notifBtn"><i class="fa-solid fa-bell"></i><span class="num hide" id="notifBadge">0</span></button>
-    <button class="btn btn-primary btn-sm" id="newFileBtn"><i class="fa-solid fa-file-circle-plus"></i>新文件</button>
-    <button class="btn btn-sm" id="newHwBtn"><i class="fa-solid fa-clipboard-check"></i>新.hw</button>
-    <button class="btn btn-ai btn-sm" id="aiBtn"><i class="fa-solid fa-wand-magic-sparkles"></i>智能</button>
-  </div>
-</div>
-
-<div class="content" id="app">
-  <div class="file-grid" id="fileGrid"></div>
-</div>
-
-<div class="toast" id="toast"></div>
-
-<!-- 通知 -->
-<div class="modal" id="notifModal">
-  <div class="modal-box">
-    <div class="modal-header">🔔 通知 <span id="notifCount"></span><button class="btn btn-sm" onclick="closeNotif()">✕</button></div>
-    <div id="notifList"></div>
-    <div class="send-row">
-      <select id="notifRecip"><option value="all">所有學生</option><option value="F1A">F1A</option><option value="F1B">F1B</option><option value="F1C">F1C</option><option value="F1D">F1D</option><option value="F2A">F2A</option><option value="F2B">F2B</option><option value="F2C">F2C</option><option value="F2D">F2D</option><option value="F3A">F3A</option><option value="F3B">F3B</option><option value="F3C">F3C</option><option value="F3D">F3D</option><option value="F4A">F4A</option><option value="F4B">F4B</option><option value="F4C">F4C</option><option value="F4D">F4D</option><option value="F5A">F5A</option><option value="F5B">F5B</option><option value="F5C">F5C</option><option value="F5D">F5D</option><option value="F6A">F6A</option><option value="F6B">F6B</option><option value="F6C">F6C</option><option value="F6D">F6D</option></select>
-      <input id="notifMsg" placeholder="輸入通知內容...">
-      <button class="btn btn-primary btn-sm" id="sendNotifBtn">發送</button>
-      <span class="send-status" id="sendStatus"></span>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo"><div class="logo-icon"><i class="fa-solid fa-school"></i></div><div><div>珊瑚小助</div><div style="font-size:0.6rem;color:var(--text2);font-weight:700;">👨‍🏫 老師版</div></div></div>
+    <div class="nav-section">
+      <div class="nav-title">主選單</div>
+      <div class="nav-item active" data-view="kanban"><i class="fa-solid fa-table-columns"></i> Kanban</div>
+      <div class="nav-item" data-view="files"><i class="fa-solid fa-folder-tree"></i> 檔案總管</div>
+      <div class="nav-item" data-view="calendar"><i class="fa-solid fa-calendar-days"></i> 行事曆</div>
     </div>
-    <div class="footer"><button class="btn btn-sm" onclick="closeNotif()">關閉</button><button class="btn btn-sm btn-primary" id="markAllBtn">全部已讀</button></div>
+    <div class="sidebar-footer"><button class="btn" id="themeToggle" style="width:100%;justify-content:center;"><i class="fa-solid fa-moon"></i> 主題</button></div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div class="top-row">
+        <div class="page-title"><h1><i class="fa-solid fa-layer-group" style="color:var(--accent);"></i> 文件流程工作台</h1></div>
+        <div class="tool-group">
+          <button class="notification-btn" id="notificationBtn"><i class="fa-solid fa-bell"></i><span class="notification-badge hidden" id="notificationBadge">0</span></button>
+          <button class="btn primary" id="btnNewFile"><i class="fa-solid fa-file-circle-plus"></i> 新文件</button>
+          <button class="btn" id="btnNewHw"><i class="fa-solid fa-clipboard-check"></i> 新 .hw</button>
+          <button class="btn ai" id="btnAIToggle"><i class="fa-solid fa-wand-magic-sparkles"></i> 智能建檔</button>
+        </div>
+      </div>
+      <div class="filters">
+        <div class="search-wrap"><i class="fa-solid fa-search"></i><input class="input" id="searchInput" placeholder="搜尋..."></div>
+        <select class="select" id="subjectFilter"><option value="all">全部科目</option></select>
+        <select class="select" id="typeFilter"><option value="all">全部類型</option></select>
+        <select class="select" id="sortSelect"><option value="due">截止日期</option><option value="name">名稱</option><option value="type">類型</option><option value="priority">優先級</option><option value="modified">修改時間</option></select>
+      </div>
+      <div class="ai-panel" id="aiPanel"><input class="input" id="aiInput" placeholder="例：5A班下星期三交英文默書"><button class="btn primary" id="btnAiSubmit"><i class="fa-solid fa-sparkles"></i> 解析</button></div>
+    </header>
+    <section class="content">
+      <div class="view active" id="viewKanban"><div class="kanban-board" id="kanbanBoard"></div></div>
+      <div class="view" id="viewFiles"><div class="file-grid" id="fileGrid"></div></div>
+      <div class="view" id="viewCalendar"><div class="calendar-box"><div class="cal-header"><h2 id="calMonthTitle"></h2><div class="cal-nav"><button class="btn" id="btnPrevMonth"><i class="fa-solid fa-chevron-left"></i></button><button class="btn" id="btnToday">今天</button><button class="btn" id="btnNextMonth"><i class="fa-solid fa-chevron-right"></i></button></div></div><div class="cal-weekdays"><div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div></div><div class="cal-grid" id="calGrid"></div></div></div>
+    </section>
+    <footer class="status-bar"><span id="statusText">準備就緒</span><span>珊瑚小助</span></footer>
+  </main>
+</div>
+
+<!-- ===== 通知對話框 ===== -->
+<div class="modal-overlay" id="notificationModal">
+  <div class="dialog medium">
+    <div class="dialog-header">
+      <div class="dialog-title"><i class="fa-solid fa-bell" style="color:var(--warning);"></i> 通知 <span id="notificationCount" style="font-size:0.6rem;color:var(--text2);font-weight:400;"></span></div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="btn" id="notificationMarkAll" style="font-size:0.55rem;">全部已讀</button>
+        <button class="btn" id="notificationClose">✕</button>
+      </div>
+    </div>
+    <div class="form-body" style="padding:0;">
+      <div class="notification-list" id="notificationList"></div>
+      <div class="notification-send-area">
+        <div class="send-row">
+          <select id="notifRecipient"><option value="all">所有學生</option><option value="F1A">F1A</option><option value="F1B">F1B</option><option value="F1C">F1C</option><option value="F1D">F1D</option><option value="F2A">F2A</option><option value="F2B">F2B</option><option value="F2C">F2C</option><option value="F2D">F2D</option><option value="F3A">F3A</option><option value="F3B">F3B</option><option value="F3C">F3C</option><option value="F3D">F3D</option><option value="F4A">F4A</option><option value="F4B">F4B</option><option value="F4C">F4C</option><option value="F4D">F4D</option><option value="F5A">F5A</option><option value="F5B">F5B</option><option value="F5C">F5C</option><option value="F5D">F5D</option><option value="F6A">F6A</option><option value="F6B">F6B</option><option value="F6C">F6C</option><option value="F6D">F6D</option></select>
+          <input id="notifMessage" placeholder="輸入通知內容...">
+          <button class="btn primary" id="notifSendBtn">發送</button>
+          <span class="send-status" id="sendStatus"></span>
+        </div>
+      </div>
+    </div>
+    <div class="dialog-footer"><button class="btn" id="notificationModalClose">關閉</button></div>
   </div>
 </div>
 
-<!-- 新增文件 -->
-<div class="modal" id="newFileModal">
-  <div class="modal-box">
-    <div class="modal-header">📄 新增文件<button class="btn btn-sm" onclick="closeNewFile()">✕</button></div>
-    <div class="form-group"><label>名稱</label><input class="input" id="nfName" placeholder="例：3A班_中文工作紙.docx"></div>
-    <div class="form-group"><label>科目</label><input class="input" id="nfSubject" placeholder="例：中文"></div>
-    <div class="form-group"><label>班別</label><input class="input" id="nfClass" placeholder="例：3A"></div>
-    <div class="form-group"><label>截止日</label><input class="input" id="nfDue" type="date"></div>
-    <div class="footer"><button class="btn btn-sm" onclick="closeNewFile()">取消</button><button class="btn btn-primary btn-sm" id="confirmNewFileBtn">建立</button></div>
-  </div>
-</div>
-
-<!-- 檢視器 -->
-<div class="modal" id="viewerModal">
-  <div class="modal-box wide">
-    <div class="modal-header"><span id="viewerTitle"></span><button class="btn btn-sm" onclick="closeViewer()">✕</button></div>
+<!-- ===== 檔案檢視器 ===== -->
+<div class="modal-overlay" id="viewerModal">
+  <div class="dialog" id="viewerDialog">
+    <div class="dialog-header">
+      <div class="dialog-title" id="viewerTitle"></div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="btn primary" id="viewerSaveTop" style="display:none;font-size:0.65rem;"><i class="fa-solid fa-floppy-disk"></i> 儲存</button>
+        <button class="btn" id="viewerClose">✕</button>
+      </div>
+    </div>
     <div class="viewer-toolbar">
-      <button class="btn btn-sm" id="editBtn"><i class="fa-solid fa-pen-to-square"></i>編輯</button>
-      <button class="btn btn-sm" id="downloadBtn"><i class="fa-solid fa-download"></i>下載</button>
-      <span style="flex:1"></span>
-      <span id="viewerStatus" style="font-size:.6rem;color:#64748b">唯讀模式</span>
+      <button class="btn" id="viewerEdit"><i class="fa-solid fa-pen-to-square"></i> 編輯</button>
+      <button class="btn" id="viewerDownload"><i class="fa-solid fa-download"></i> 下載</button>
+      <span style="flex:1;"></span>
+      <span id="viewerStatus" style="font-size:0.65rem;color:var(--text2);">唯讀模式</span>
+    </div>
+    <div class="editor-toolbar" id="editorToolbar">
+      <button class="btn" data-cmd="bold"><i class="fa-solid fa-bold"></i></button>
+      <button class="btn" data-cmd="italic"><i class="fa-solid fa-italic"></i></button>
+      <button class="btn" data-cmd="underline"><i class="fa-solid fa-underline"></i></button>
+      <button class="btn" data-cmd="strikeThrough"><i class="fa-solid fa-strikethrough"></i></button>
+      <button class="btn" data-cmd="insertUnorderedList"><i class="fa-solid fa-list-ul"></i></button>
+      <button class="btn" data-cmd="insertOrderedList"><i class="fa-solid fa-list-ol"></i></button>
+      <select id="fontSizeSelect"><option value="1">細</option><option value="3" selected>中</option><option value="5">大</option><option value="7">超大</option></select>
+      <select id="fontFamilySelect"><option value="Arial">Arial</option><option value="Times New Roman">Times</option><option value="Microsoft JhengHei">微軟正黑</option><option value="Courier New">Courier</option></select>
+      <input type="color" class="color-input" id="textColorPicker" value="#1e293b">
+      <input type="color" class="color-input" id="highlightPicker" value="#fef08a">
+      <button class="btn" data-cmd="hiliteColor"><i class="fa-solid fa-highlighter"></i></button>
+      <button class="btn" data-cmd="foreColor"><i class="fa-solid fa-palette"></i></button>
+      <button class="btn" data-cmd="createTable"><i class="fa-solid fa-table"></i></button>
+      <button class="btn" data-cmd="removeFormat"><i class="fa-solid fa-eraser"></i></button>
+      <div class="more-menu-wrapper">
+        <button class="more-menu-toggle" id="moreMenuToggle"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+        <div class="more-menu-dropdown" id="moreMenuDropdown">
+          <button class="btn" data-cmd="subscript"><i class="fa-solid fa-subscript"></i> 下標</button>
+          <button class="btn" data-cmd="superscript"><i class="fa-solid fa-superscript"></i> 上標</button>
+          <div class="separator"></div>
+          <button class="btn" data-cmd="justifyLeft"><i class="fa-solid fa-align-left"></i> 靠左</button>
+          <button class="btn" data-cmd="justifyCenter"><i class="fa-solid fa-align-center"></i> 置中</button>
+          <button class="btn" data-cmd="justifyRight"><i class="fa-solid fa-align-right"></i> 靠右</button>
+          <button class="btn" data-cmd="justifyFull"><i class="fa-solid fa-align-justify"></i> 分散</button>
+          <div class="separator"></div>
+          <button class="btn" data-cmd="indent"><i class="fa-solid fa-indent"></i> 縮排</button>
+          <button class="btn" data-cmd="outdent"><i class="fa-solid fa-outdent"></i> 取消縮排</button>
+          <div class="separator"></div>
+          <button class="btn" data-cmd="undo"><i class="fa-solid fa-rotate-left"></i> 復原</button>
+          <button class="btn" data-cmd="redo"><i class="fa-solid fa-rotate-right"></i> 重做</button>
+        </div>
+      </div>
     </div>
     <div class="viewer-content" id="viewerContent"></div>
-    <div class="footer"><button class="btn btn-sm" onclick="closeViewer()">關閉</button><button class="btn btn-primary btn-sm" id="saveViewerBtn">儲存</button></div>
+    <div class="dialog-footer">
+      <button class="btn" id="viewerCancel">關閉</button>
+      <button class="btn primary" id="viewerSaveClose">儲存並關閉</button>
+    </div>
   </div>
 </div>
+
+<!-- ===== 右鍵選單 ===== -->
+<div class="ctx-menu" id="ctxMenu"><div class="ctx-header" id="ctxTitle">文件操作</div><div class="ctx-item" id="ctxOpen"><i class="fa-solid fa-arrow-up-right-from-square"></i> 開啟</div><div class="ctx-item" id="ctxProps"><i class="fa-solid fa-circle-info"></i> 屬性</div><div class="ctx-item" id="ctxRename"><i class="fa-solid fa-pen-to-square"></i> 重新命名</div><div class="ctx-divider"></div><div class="ctx-item danger" id="ctxDelete"><i class="fa-solid fa-trash"></i> 刪除</div></div>
+
+<!-- ===== 屬性編輯器 ===== -->
+<div class="modal-overlay" id="propModal"><div class="dialog small"><div class="dialog-header"><div class="dialog-title"><span id="propTitle">文件屬性</span></div><button class="btn" id="propClose">✕</button></div><div class="form-body"><div class="form-grid"><div class="form-label">名稱</div><input class="input" id="propName"><div class="form-label">狀態</div><select class="select" id="propStatus"><option value="inbox">待處理</option><option value="grading">正在批改</option><option value="review">待覆核</option><option value="done">已完成</option><option value="archive">封存</option></select><div class="form-label">科目</div><input class="input" id="propSubject"><div class="form-label">班別</div><input class="input" id="propClass"><div class="form-label">截止日</div><input class="input" id="propDue" type="date"><div class="form-label">優先級</div><select class="select" id="propPriority"><option value="高">高</option><option value="中">中</option><option value="低">低</option></select><div class="form-label">唯讀</div><label><input type="checkbox" id="propReadonly"> 不可編輯</label></div></div><div class="dialog-footer"><button class="btn" id="propCancel">取消</button><button class="btn primary" id="propSave">儲存</button></div></div></div>
+
+<!-- ===== 新增檔案對話框 ===== -->
+<div class="modal-overlay" id="newFileModal"><div class="dialog small"><div class="dialog-header"><div class="dialog-title">新增文件</div><button class="btn" id="newFileClose">✕</button></div><div class="form-body"><div class="form-grid"><div class="form-label">名稱</div><input class="input" id="newFileName" placeholder="例：3A班_英文工作紙.docx"><div class="form-label">科目</div><input class="input" id="newFileSubject" placeholder="例：英文"><div class="form-label">班別</div><input class="input" id="newFileClass" placeholder="例：3A"><div class="form-label">截止日</div><input class="input" id="newFileDue" type="date"></div></div><div class="dialog-footer"><button class="btn" id="newFileCancel">取消</button><button class="btn primary" id="newFileConfirm">建立</button></div></div></div>
+
+<!-- ===== 確認對話框 ===== -->
+<div class="modal-overlay" id="confirmModal"><div class="dialog small"><div class="dialog-header"><div class="dialog-title">確認操作</div></div><div class="form-body"><div class="inline-confirm"><p id="confirmMsg"></p><div class="hw-row" style="justify-content:center;"><button class="btn danger" id="confirmYes">確定</button><button class="btn" id="confirmNo">取消</button></div></div></div></div></div>
+
+<div class="toast" id="toast"></div>
 
 <script>
 (function() {
@@ -120,291 +354,723 @@ body{font-family:Segoe UI,Microsoft JhengHei,system-ui,sans-serif;background:#f5
   // ★★★ 請把下面換成你的 Apps Script 網址 ★★★
   const API_URL = 'https://script.google.com/macros/s/你的網址/exec';
 
-  const STORAGE_KEY = 'coral_teacher_data';
-  const typeMap = {
-    docx: ['fa-file-word', '#2b579a'],
-    xlsx: ['fa-file-excel', '#217346'],
-    pptx: ['fa-file-powerpoint', '#b7472a'],
-    pdf: ['fa-file-pdf', '#d32f2f'],
-    txt: ['fa-file-lines', '#64748b'],
-    hw: ['fa-clipboard-check', '#0f766e']
-  };
+  // ============================================================
+  //  通知系統
+  // ============================================================
+  let notifications = [];
+  let isLoading = false;
 
-  function getExt(n) { const p = String(n || '').split('.'); return p.length > 1 ? p.pop().toLowerCase() : 'txt'; }
-  function getMeta(e) { return typeMap[e] || ['fa-file', '#64748b']; }
-  function esc(s) { return String(s || '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' })[m]); }
-  function toast(m) { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), 2000); }
+  async function loadNotifications() {
+    if (isLoading) return;
+    isLoading = true;
+    try {
+      const res = await fetch(API_URL + '?action=get');
+      const data = await res.json();
+      notifications = data || [];
+      updateNotificationBadge();
+      renderNotificationList();
+    } catch(e) { console.warn('載入通知失敗:', e); }
+    isLoading = false;
+  }
+
+  function getUnreadCount() {
+    return notifications.filter(n => n.read !== 'true' && n.read !== true).length;
+  }
+
+  function updateNotificationBadge() {
+    const badge = document.getElementById('notificationBadge');
+    const count = getUnreadCount();
+    if (count > 0) { badge.textContent = count > 99 ? '99+' : count; badge.classList.remove('hidden'); }
+    else { badge.classList.add('hidden'); }
+  }
+
+  function renderNotificationList() {
+    const list = document.getElementById('notificationList');
+    const countEl = document.getElementById('notificationCount');
+    if (!notifications || notifications.length === 0) {
+      list.innerHTML = `<div class="notification-empty"><i class="fa-solid fa-bell-slash"></i>沒有通知</div>`;
+      countEl.textContent = '';
+      return;
+    }
+    countEl.textContent = `（${notifications.length} 則通知，${getUnreadCount()} 則未讀）`;
+    list.innerHTML = notifications.map(n => {
+      const isRead = n.read === 'true' || n.read === true;
+      const icon = n.type === 'teacher' ? '👨‍🏫' : n.type === 'submit' ? '📤' : '📢';
+      const timeStr = new Date(n.time).toLocaleString('zh-HK', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit' });
+      return `
+        <div class="notification-item ${isRead ? '' : 'unread'}">
+          <div class="n-icon">${icon}</div>
+          <div class="n-content">
+            <div class="n-title">${esc(n.title)} <span style="font-size:0.5rem;color:var(--text2);">→ ${n.recipient === 'all' ? '全部' : n.recipient}</span></div>
+            <div class="n-message">${esc(n.message)}${n.from ? ' — ' + esc(n.from) : ''}</div>
+            <div class="n-time">${timeStr}</div>
+          </div>
+          ${!isRead ? `<span class="n-mark-read" data-id="${n.id}">標記已讀</span>` : ''}
+        </div>
+      `;
+    }).join('');
+    list.querySelectorAll('.n-mark-read').forEach(el => {
+      el.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const id = parseInt(this.dataset.id);
+        markNotificationRead(id);
+      });
+    });
+  }
+
+  async function markNotificationRead(id) {
+    try { await fetch(API_URL + '?action=mark_read&id=' + id); await loadNotifications(); }
+    catch(e) { toast('❌ 操作失敗'); }
+  }
+
+  async function markAllRead() {
+    try { await fetch(API_URL + '?action=mark_all_read'); await loadNotifications(); toast('✅ 全部已讀'); }
+    catch(e) { toast('❌ 操作失敗'); }
+  }
+
+  let sendStatusTimer = null;
+
+  async function sendNotification() {
+    const recipient = document.getElementById('notifRecipient').value;
+    const message = document.getElementById('notifMessage').value.trim();
+    const statusEl = document.getElementById('sendStatus');
+    
+    if (!message) { toast('請輸入通知內容'); return; }
+
+    statusEl.textContent = '⏳ 發送中...';
+    statusEl.className = 'send-status sending';
+
+    try {
+      const url = API_URL + '?action=add' +
+        '&title=' + encodeURIComponent('📢 老師通知') +
+        '&message=' + encodeURIComponent(message) +
+        '&from=' + encodeURIComponent('老師') +
+        '&recipient=' + encodeURIComponent(recipient) +
+        '&type=teacher';
+      
+      const res = await fetch(url);
+      const result = await res.json();
+      
+      if (result.success) {
+        document.getElementById('notifMessage').value = '';
+        const label = recipient === 'all' ? '所有學生' : recipient;
+        statusEl.textContent = '✅ 已發送給 ' + label;
+        statusEl.className = 'send-status success';
+        await loadNotifications();
+      } else {
+        statusEl.textContent = '❌ 發送失敗';
+        statusEl.className = 'send-status error';
+      }
+    } catch(e) {
+      statusEl.textContent = '❌ 網路錯誤';
+      statusEl.className = 'send-status error';
+    }
+
+    clearTimeout(sendStatusTimer);
+    sendStatusTimer = setTimeout(() => {
+      statusEl.textContent = '';
+      statusEl.className = 'send-status';
+    }, 5000);
+  }
+
+  // ============================================================
+  //  核心系統
+  // ============================================================
+  const STORAGE_KEY = "classworks_pro_nopopup";
+  const columns = [
+    { id: "inbox", title: "待處理", icon: "fa-inbox" },
+    { id: "grading", title: "正在批改", icon: "fa-pen" },
+    { id: "review", title: "待覆核", icon: "fa-magnifying-glass" },
+    { id: "done", title: "已完成", icon: "fa-circle-check" },
+    { id: "archive", title: "封存", icon: "fa-box-archive" }
+  ];
+  const typeMap = {
+    docx: ["fa-file-word","#2b579a","Word"], xlsx: ["fa-file-excel","#217346","Excel"],
+    pptx: ["fa-file-powerpoint","#b7472a","PowerPoint"], pdf: ["fa-file-pdf","#d32f2f","PDF"],
+    txt: ["fa-file-lines","#64748b","Text"], html: ["fa-file-code","#e34c26","HTML"],
+    hw: ["fa-clipboard-check","#0f766e","HW Tracker"]
+  };
+  const hwSubjects = ["中文","英文","數學","科學","中史","歷史","公經社","其他"];
+  const hwStatuses = { submitted:"✓", late:"✗", absent:"A", empty:"◻" };
+
+  function getExt(n) { const p=String(n||"").split("."); return p.length>1?p.pop().toLowerCase():"txt"; }
+  function getTypeMeta(e) { return typeMap[e]||["fa-file","#64748b","File"]; }
+  function esc(s) { return String(s||"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"})[m]); }
+  function stripHtml(h) { const d=document.createElement("div"); d.innerHTML=h||""; return d.textContent||""; }
+  function toast(m,d) { d=d||1500; const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),d); }
+
+  function createDefaultHwData() {
+    const c={}; ["F1A","F1B","F2A","F2B","F3A","F3B","F4A","F4B","F5A","F5B","F6A","F6B"].forEach(cl=>{c[cl]=[];for(let i=1;i<=33;i++)c[cl].push("學生"+String(i).padStart(2,"0"));});
+    return { currentDate:new Date().toISOString().slice(0,10), currentClass:"F1A", selectedSubjects:[...hwSubjects], classes:c, records:{} };
+  }
 
   function makeFile(f) {
-    const ext = getExt(f.name);
-    const m = getMeta(ext);
-    return {
-      id: f.id || Date.now(),
-      name: f.name || '新文件.txt',
-      ext: ext,
-      icon: m[0],
-      color: m[1],
-      subject: f.subject || '班務',
-      className: f.className || '未分類',
-      due: f.due || new Date().toISOString().slice(0, 10),
-      content: f.content || '',
-      rich: !!f.rich,
-      created: f.created || Date.now(),
-      modified: f.modified || Date.now()
-    };
+    const ext=getExt(f.name), m=getTypeMeta(ext);
+    return { id:f.id||Date.now(), name:f.name||"新文件.txt", type:"file", ext, icon:m[0], color:m[1], typeLabel:m[2],
+      status:f.status||"inbox", subject:f.subject||"班務", className:f.className||"未分類",
+      due:f.due||new Date().toISOString().slice(0,10), priority:f.priority||"中",
+      content:f.content||"", readonly:!!f.readonly, hidden:!!f.hidden, rich:!!f.rich,
+      hwData:f.hwData||(ext==="hw"?createDefaultHwData():null), created:f.created||Date.now(), modified:f.modified||Date.now() };
   }
+
+  // 預設種子資料
+  const seed = [
+    makeFile({id:1,name:"3A班_中文作文.docx",status:"inbox",subject:"中文",className:"3A",due:"2026-07-28",priority:"高",content:"<p><b>三年級中文作文</b></p><p>題目：我的暑假生活</p>",rich:true}),
+    makeFile({id:2,name:"3B班_數學工作紙.xlsx",status:"grading",subject:"數學",className:"3B",due:"2026-07-22",priority:"中",readonly:true,content:"數學工作紙 - 單元五\n1. 25×4=____\n2. 100÷5=____"}),
+    makeFile({id:3,name:"6A班_畢業演講稿.pptx",status:"review",subject:"活動",className:"6A",due:"2026-07-30",priority:"高",content:"畢業典禮演講稿\n\n尊敬的老師、親愛的同學們：大家好！"}),
+    makeFile({id:4,name:"4C班_英文默書.pdf",status:"done",subject:"英文",className:"4C",due:"2026-07-15",priority:"低",content:"English Dictation\nUnit 6\n1. classroom\n2. teacher"}),
+    makeFile({id:5,name:"F1A_功課追蹤.hw",status:"inbox",subject:"功課追蹤",className:"F1A",due:"2026-07-20",priority:"高",hwData:createDefaultHwData()})
+  ];
 
   let data = [];
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      if (Array.isArray(parsed)) data = parsed.map(makeFile);
-    }
-  } catch (e) {}
+    if (saved) { const parsed = JSON.parse(saved); if (Array.isArray(parsed)) data = parsed.map(makeFile); }
+  } catch(e) {}
+  if (data.length === 0) data = seed.slice();
+  function save() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {} }
 
-  if (data.length === 0) {
-    data = [
-      makeFile({ id: 1, name: '3A班_中文作文.docx', subject: '中文', className: '3A', due: '2026-07-28', content: '三年級中文作文\n題目：我的暑假生活', rich: true }),
-      makeFile({ id: 2, name: '3B班_數學工作紙.xlsx', subject: '數學', className: '3B', due: '2026-07-22' }),
-      makeFile({ id: 3, name: '6A班_畢業演講稿.pptx', subject: '活動', className: '6A', due: '2026-07-30' })
-    ];
-    saveData();
+  let activeView="kanban", currentSort="due", subjectFilter="all", typeFilter="all", searchQuery="", darkMode=false;
+  let selectedId=null, currentViewerFile=null, isEditMode=false, editingItem=null;
+  let currentYear=new Date().getFullYear(), currentMonth=new Date().getMonth()+1, renderTimer=null;
+  let confirmCallback=null;
+  let viewerHasChanges = false;
+
+  function dueInfo(due) {
+    const t=new Date(), td=new Date(t.getFullYear(),t.getMonth(),t.getDate()), dd=new Date(due+"T00:00:00");
+    const diff=Math.ceil((dd-td)/86400000);
+    if(diff<0)return{text:"逾期"+Math.abs(diff)+"日",overdue:true,urgent:true,tag:"red"};
+    if(diff===0)return{text:"今日截止",overdue:false,urgent:true,tag:"orange"};
+    if(diff<=3)return{text:diff+"日後",overdue:false,urgent:true,tag:"orange"};
+    return{text:diff+"日後",overdue:false,urgent:false,tag:"gray"};
   }
 
-  function saveData() {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
+  function getFilteredDocs() {
+    let docs=data.filter(f=>f.type==="file"&&!f.hidden);
+    if(searchQuery.trim()){const q=searchQuery.trim().toLowerCase();docs=docs.filter(f=>[f.name,f.ext,f.subject,f.className,f.content].join(" ").toLowerCase().includes(q));}
+    if(subjectFilter!=="all")docs=docs.filter(f=>f.subject===subjectFilter);
+    if(typeFilter!=="all")docs=docs.filter(f=>f.ext===typeFilter);
+    docs.sort((a,b)=>{if(currentSort==="due")return a.due.localeCompare(b.due);if(currentSort==="name")return a.name.localeCompare(b.name,"zh-Hant");if(currentSort==="type")return a.ext.localeCompare(b.ext);if(currentSort==="priority"){const o={高:0,中:1,低:2};return o[a.priority]-o[b.priority];}if(currentSort==="modified")return b.modified-a.modified;return 0;});
+    return docs;
   }
 
-  let currentFile = null;
-  let isEdit = false;
-  let hasChanges = false;
+  function showConfirm(msg, cb) {
+    document.getElementById("confirmMsg").textContent = msg;
+    confirmCallback = cb;
+    document.getElementById("confirmModal").classList.add("active");
+  }
 
+  function renderAll() {
+    const ss=document.getElementById("subjectFilter"), ts=document.getElementById("typeFilter");
+    const subjects=[...new Set(data.map(f=>f.subject))].sort(), types=[...new Set(data.map(f=>f.ext))].sort();
+    ss.innerHTML='<option value="all">全部科目</option>'+subjects.map(s=>'<option value="'+esc(s)+'">'+esc(s)+'</option>').join("");
+    ts.innerHTML='<option value="all">全部類型</option>'+types.map(t=>{const m=getTypeMeta(t);return'<option value="'+esc(t)+'">'+esc(m[2])+'</option>';}).join("");
+    if(subjects.includes(subjectFilter))ss.value=subjectFilter;else ss.value="all";
+    if(types.includes(typeFilter))ts.value=typeFilter;else ts.value="all";
+    subjectFilter=ss.value; typeFilter=ts.value;
+
+    document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));
+    const cap = activeView.charAt(0).toUpperCase()+activeView.slice(1);
+    const viewEl = document.getElementById("view"+cap);
+    if(viewEl) viewEl.classList.add("active");
+    if(activeView==="kanban") renderKanban();
+    if(activeView==="files") renderFiles();
+    if(activeView==="calendar") renderCalendar();
+    updateStatus(); save();
+    updateNotificationBadge();
+  }
+
+  function updateStatus() {
+    const docs=getFilteredDocs(), t=document.getElementById("statusText");
+    t.textContent = (activeView==="calendar"?"行事曆 · "+currentYear+"年"+currentMonth+"月":docs.length+" 個文件");
+  }
+
+  // ===== Kanban =====
+  function renderKanban() {
+    const board=document.getElementById("kanbanBoard"), docs=getFilteredDocs(); board.innerHTML="";
+    columns.forEach(col=>{
+      const colDocs=docs.filter(f=>f.status===col.id), sec=document.createElement("section");
+      sec.className="kanban-column"; sec.dataset.status=col.id;
+      sec.innerHTML='<div class="kanban-header"><div class="kanban-title"><strong><i class="fa-solid '+col.icon+'"></i> '+esc(col.title)+'</strong></div><div class="count">'+colDocs.length+'</div></div><div class="kanban-list"></div>';
+      const list=sec.querySelector(".kanban-list");
+      colDocs.forEach(doc=>list.appendChild(createCard(doc)));
+      sec.addEventListener("dragover",e=>{e.preventDefault();sec.classList.add("drag-over");});
+      sec.addEventListener("dragleave",()=>sec.classList.remove("drag-over"));
+      sec.addEventListener("drop",e=>{e.preventDefault();sec.classList.remove("drag-over");const id=parseInt(e.dataTransfer.getData("text/plain"));const item=data.find(f=>f.id===id);if(item){item.status=col.id;item.modified=Date.now();toast("已移動");safeRender();}});
+      board.appendChild(sec);
+    });
+  }
+
+  function createCard(doc) {
+    const card=document.createElement("article"), due=dueInfo(doc.due);
+    card.className="card "+(doc.priority==="高"?"priority-high":doc.priority==="中"?"priority-mid":"priority-low");
+    card.draggable=true; card.dataset.id=doc.id;
+    const preview=doc.ext==="hw"?"📋 功課追蹤文件":(doc.rich?stripHtml(doc.content):(doc.content||"暫無內容"));
+    card.innerHTML='<div class="card-top"><div class="file-icon-sm"><i class="fa-solid '+doc.icon+'" style="color:'+doc.color+';"></i></div><div class="card-main"><div class="card-title">'+esc(doc.name)+'</div><div class="card-meta">'+esc(doc.typeLabel)+' · '+esc(doc.subject)+'</div></div></div><div class="preview">'+esc(preview)+'</div><div class="tags"><span class="tag">'+esc(doc.className)+'</span><span class="tag gray">.'+esc(doc.ext)+'</span><span class="tag '+due.tag+'">'+esc(due.text)+'</span></div><div class="due'+(due.overdue?" overdue":"")+'"><i class="fa-regular fa-calendar"></i> '+esc(doc.due)+'</div>';
+    card.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",String(doc.id));});
+    card.addEventListener("click",()=>{selectedId=doc.id;});
+    card.addEventListener("dblclick",()=>openViewer(doc));
+    card.addEventListener("contextmenu",e=>{e.preventDefault();selectedId=doc.id;showContextMenu(e,doc);});
+    return card;
+  }
+
+  // ===== 檔案總管 =====
   function renderFiles() {
-    const grid = document.getElementById('fileGrid');
-    grid.innerHTML = '';
-    if (!data.length) {
-      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;color:#94a3b8;"><i class="fa-solid fa-inbox" style="font-size:2rem;display:block;margin-bottom:6px;"></i>目前沒有檔案</div>';
-      return;
-    }
-    data.forEach(f => {
-      const card = document.createElement('div');
-      card.className = 'file-card';
-      card.dataset.id = f.id;
-      card.innerHTML = '<div class="icon"><i class="fa-solid ' + f.icon + '" style="color:' + f.color + ';"></i></div><div class="name">' + esc(f.name) + '</div><div class="meta">' + esc(f.subject) + ' · ' + esc(f.due) + '</div>';
-      card.ondblclick = () => openViewer(f);
+    const grid=document.getElementById("fileGrid"), docs=getFilteredDocs(); grid.innerHTML="";
+    docs.forEach(doc=>{
+      const card=document.createElement("div"); card.className="file-card"; card.dataset.id=doc.id;
+      card.innerHTML='<div class="file-icon-sm"><i class="fa-solid '+doc.icon+'" style="color:'+doc.color+';"></i></div><div class="file-name">'+esc(doc.name)+'</div><div class="file-meta">'+esc(doc.subject)+' · '+esc(doc.due)+'</div>';
+      card.addEventListener("click",()=>{document.querySelectorAll(".file-card.selected").forEach(c=>c.classList.remove("selected"));card.classList.add("selected");selectedId=doc.id;});
+      card.addEventListener("dblclick",()=>openViewer(doc));
+      card.addEventListener("contextmenu",e=>{e.preventDefault();selectedId=doc.id;showContextMenu(e,doc);});
       grid.appendChild(card);
     });
   }
 
-  // ===== 通知系統 =====
-  let notifs = [];
-  let notifLoading = false;
-
-  async function loadNotifs() {
-    if (notifLoading) return;
-    notifLoading = true;
-    try {
-      const r = await fetch(API_URL + '?action=get');
-      const d = await r.json();
-      notifs = d || [];
-      updateBadge();
-      renderNotifList();
-    } catch (e) { console.warn(e); }
-    notifLoading = false;
-  }
-
-  function updateBadge() {
-    const b = document.getElementById('notifBadge');
-    const c = notifs.filter(n => n.read !== 'true' && n.read !== true).length;
-    if (c > 0) { b.textContent = c > 99 ? '99+' : c; b.classList.remove('hide'); } else { b.classList.add('hide'); }
-  }
-
-  function renderNotifList() {
-    const list = document.getElementById('notifList');
-    const count = document.getElementById('notifCount');
-    if (!notifs || !notifs.length) { list.innerHTML = '<div style="padding:20px;text-align:center;color:#94a3b8;">沒有通知</div>'; count.textContent = ''; return; }
-    count.textContent = '（' + notifs.length + ' 則，' + notifs.filter(n => n.read !== 'true' && n.read !== true).length + ' 未讀）';
-    list.innerHTML = notifs.map(n => {
-      const isRead = n.read === 'true' || n.read === true;
-      return '<div class="notif-item' + (isRead ? '' : ' unread') + '"><span>👨‍🏫</span><div><div style="font-weight:700;font-size:.7rem;">' + esc(n.title) + '</div><div style="font-size:.65rem;color:#64748b;">' + esc(n.message) + ' — ' + esc(n.from || '老師') + '</div><div style="font-size:.5rem;color:#94a3b8;">' + new Date(n.time).toLocaleString() + '</div></div>' + (isRead ? '' : '<span class="btn btn-sm" style="font-size:.5rem;padding:1px 6px;" onclick="markRead(' + n.id + ')">已讀</span>') + '</div>';
-    }).join('');
-  }
-
-  async function markRead(id) {
-    try { await fetch(API_URL + '?action=mark_read&id=' + id); await loadNotifs(); } catch (e) {}
-  }
-
-  async function markAllRead() {
-    try { await fetch(API_URL + '?action=mark_all_read'); await loadNotifs(); toast('✅ 全部已讀'); } catch (e) {}
-  }
-
-  async function sendNotif() {
-    const recip = document.getElementById('notifRecip').value;
-    const msg = document.getElementById('notifMsg').value.trim();
-    const st = document.getElementById('sendStatus');
-    if (!msg) { toast('請輸入內容'); return; }
-    st.textContent = '⏳ 發送中...';
-    st.className = 'send-status wait';
-    try {
-      const r = await fetch(API_URL + '?action=add&title=' + encodeURIComponent('📢 老師通知') + '&message=' + encodeURIComponent(msg) + '&from=' + encodeURIComponent('老師') + '&recipient=' + encodeURIComponent(recip) + '&type=teacher');
-      const d = await r.json();
-      if (d.success) {
-        document.getElementById('notifMsg').value = '';
-        st.textContent = '✅ 已發送';
-        st.className = 'send-status ok';
-        await loadNotifs();
-      } else {
-        st.textContent = '❌ 發送失敗';
-        st.className = 'send-status err';
-      }
-    } catch (e) {
-      st.textContent = '❌ 網路錯誤';
-      st.className = 'send-status err';
+  // ===== 行事曆 =====
+  function renderCalendar() {
+    const title=document.getElementById("calMonthTitle"), grid=document.getElementById("calGrid");
+    title.textContent=currentYear+"年 "+currentMonth+"月"; grid.innerHTML="";
+    const fd=new Date(currentYear,currentMonth-1,1).getDay(), dim=new Date(currentYear,currentMonth,0).getDate();
+    for(let i=0;i<fd;i++){const c=document.createElement("div");c.className="cal-cell";grid.appendChild(c);}
+    const docs=getFilteredDocs(), today=new Date();
+    for(let d=1;d<=dim;d++){
+      const cell=document.createElement("div"); cell.className="cal-cell";
+      if(d===today.getDate()&&currentMonth===today.getMonth()+1&&currentYear===today.getFullYear())cell.classList.add("today");
+      cell.innerHTML='<div class="cal-date">'+d+'</div>';
+      const ds=String(d).padStart(2,"0"), ms=String(currentMonth).padStart(2,"0"), dateStr=currentYear+"-"+ms+"-"+ds;
+      docs.filter(f=>f.due===dateStr).forEach(doc=>{
+        const t=document.createElement("div");
+        t.className="cal-task"+(dueInfo(doc.due).overdue?" overdue":"");
+        t.textContent=doc.name;
+        t.title=doc.name;
+        t.addEventListener("click",e=>{e.stopPropagation();openViewer(doc);});
+        cell.appendChild(t);
+      });
+      grid.appendChild(cell);
     }
-    setTimeout(() => { st.textContent = ''; st.className = 'send-status'; }, 4000);
   }
 
-  // ===== 新增檔案 =====
-  function openNewFile() {
-    document.getElementById('nfName').value = '新班務文件.docx';
-    document.getElementById('nfSubject').value = '班務';
-    document.getElementById('nfClass').value = '3A';
-    document.getElementById('nfDue').value = new Date().toISOString().slice(0, 10);
-    document.getElementById('newFileModal').classList.add('show');
+  // ===== 上下文選單 =====
+  function showContextMenu(e,doc) {
+    const m=document.getElementById("ctxMenu");
+    document.getElementById("ctxTitle").textContent=doc.name;
+    m.dataset.id=doc.id;
+    m.style.display="block";
+    m.style.left=Math.min(e.pageX,window.innerWidth-230)+"px";
+    m.style.top=Math.min(e.pageY,window.innerHeight-250)+"px";
+  }
+  function hideContextMenu() { document.getElementById("ctxMenu").style.display="none"; }
+  function getCtxItem() { const id=parseInt(document.getElementById("ctxMenu").dataset.id); return data.find(f=>f.id===id); }
+
+  // ===== 檢視器 =====
+  function openViewer(doc) {
+    currentViewerFile=doc;
+    isEditMode=false;
+    viewerHasChanges=false;
+    const dlg=document.getElementById("viewerDialog");
+    const title=document.getElementById("viewerTitle");
+    const content=document.getElementById("viewerContent");
+    const status=document.getElementById("viewerStatus");
+    const editBtn=document.getElementById("viewerEdit");
+    const saveTop=document.getElementById("viewerSaveTop");
+    const toolbar=document.getElementById("editorToolbar");
+    dlg.classList.remove("wide");
+    content.className="viewer-content";
+    content.contentEditable="false";
+    toolbar.classList.remove("active");
+    saveTop.style.display="none";
+    document.getElementById("moreMenuDropdown").classList.remove("show");
+    title.innerHTML='<i class="fa-solid '+doc.icon+'" style="color:'+doc.color+';"></i><span>'+esc(doc.name)+'</span>';
+    if(doc.ext==="hw"){dlg.classList.add("wide");content.innerHTML="";content.className="viewer-content hw-app";renderHwApp(doc,content);}
+    else{if(doc.rich){content.classList.add("rich");content.innerHTML=doc.content||"";}else{content.textContent=doc.content||"(無內容)";}}
+    status.textContent=doc.readonly?"唯讀":"唯讀模式";
+    editBtn.style.display=doc.readonly||doc.ext==="hw"?"none":"inline-flex";
+    editBtn.innerHTML='<i class="fa-solid fa-pen-to-square"></i> 編輯';
+    document.getElementById("viewerModal").classList.add("active");
   }
 
-  function closeNewFile() {
-    document.getElementById('newFileModal').classList.remove('show');
-  }
-
-  function confirmNewFile() {
-    const name = document.getElementById('nfName').value.trim();
-    if (!name) { toast('請輸入名稱'); return; }
-    const sub = document.getElementById('nfSubject').value.trim() || '班務';
-    const cls = document.getElementById('nfClass').value.trim() || '未分類';
-    const due = document.getElementById('nfDue').value || new Date().toISOString().slice(0, 10);
-    data.unshift(makeFile({ id: Date.now(), name, subject: sub, className: cls, due, content: '' }));
-    saveData();
-    renderFiles();
-    closeNewFile();
-    toast('✅ 已建立：' + name);
-  }
-
-  function createHw() {
-    data.unshift(makeFile({ id: Date.now(), name: 'F1A_功課追蹤.hw', subject: '功課追蹤', className: 'F1A', due: new Date().toISOString().slice(0, 10), content: '📋 功課追蹤檔案' }));
-    saveData();
-    renderFiles();
-    toast('✅ 已建立 .hw 文件');
-  }
-
-  function openViewer(f) {
-    currentFile = f;
-    isEdit = false;
-    hasChanges = false;
-    document.getElementById('viewerTitle').innerHTML = '<i class="fa-solid ' + f.icon + '" style="color:' + f.color + ';"></i> ' + esc(f.name);
-    const c = document.getElementById('viewerContent');
-    c.className = 'viewer-content';
-    c.contentEditable = 'false';
-    if (f.rich) {
-      c.classList.add('rich');
-      c.innerHTML = f.content || '';
-    } else {
-      c.textContent = f.content || '(無內容)';
+  // 確認關閉視窗
+  function confirmCloseViewer() {
+    if (!currentViewerFile) { closeViewer(); return; }
+    if (!isEditMode || currentViewerFile.readonly || currentViewerFile.ext==="hw") {
+      closeViewer();
+      return;
     }
-    document.getElementById('viewerStatus').textContent = '唯讀模式';
-    document.getElementById('editBtn').style.display = 'inline-flex';
-    document.getElementById('saveViewerBtn').style.display = 'none';
-    document.getElementById('viewerModal').classList.add('show');
+    if (!viewerHasChanges) {
+      closeViewer();
+      return;
+    }
+    // 自訂儲存確認
+    const modal = document.getElementById("confirmModal");
+    const msg = document.getElementById("confirmMsg");
+    msg.innerHTML = '有未儲存的變更，要儲存嗎？<div style="display:flex;gap:6px;justify-content:center;margin-top:10px;"><button class="btn primary" id="confirmSaveYes">儲存</button><button class="btn" id="confirmSaveNo">不儲存</button><button class="btn" id="confirmSaveCancel">取消</button></div>';
+    modal.classList.add("active");
+    document.getElementById("confirmYes").style.display = "none";
+    document.getElementById("confirmNo").style.display = "none";
+
+    document.getElementById("confirmSaveYes").onclick = function() {
+      modal.classList.remove("active");
+      saveViewer();
+      closeViewer();
+      restoreConfirmButtons();
+    };
+    document.getElementById("confirmSaveNo").onclick = function() {
+      modal.classList.remove("active");
+      closeViewer();
+      restoreConfirmButtons();
+    };
+    document.getElementById("confirmSaveCancel").onclick = function() {
+      modal.classList.remove("active");
+      restoreConfirmButtons();
+    };
+    modal.onclick = function(e) {
+      if (e.target === modal) { modal.classList.remove("active"); restoreConfirmButtons(); }
+    };
+  }
+
+  function restoreConfirmButtons() {
+    document.getElementById("confirmYes").style.display = "inline-flex";
+    document.getElementById("confirmNo").style.display = "inline-flex";
+    document.getElementById("confirmMsg").innerHTML = '';
   }
 
   function closeViewer() {
-    if (hasChanges && !confirm('有未儲存的變更，確定要關閉嗎？')) return;
-    document.getElementById('viewerModal').classList.remove('show');
-    currentFile = null;
-    isEdit = false;
-    hasChanges = false;
+    document.getElementById("viewerModal").classList.remove("active");
+    currentViewerFile=null;
+    isEditMode=false;
+    viewerHasChanges=false;
+    document.getElementById("editorToolbar").classList.remove("active");
+    document.getElementById("moreMenuDropdown").classList.remove("show");
+    restoreConfirmButtons();
   }
 
-  function toggleEdit() {
-    if (!currentFile) return;
-    isEdit = !isEdit;
-    const c = document.getElementById('viewerContent');
-    const s = document.getElementById('viewerStatus');
-    const eb = document.getElementById('editBtn');
-    const sb = document.getElementById('saveViewerBtn');
-    if (isEdit) {
-      c.contentEditable = 'true';
-      c.classList.add('edit-mode');
-      if (!c.innerHTML.trim()) c.innerHTML = '<p>請輸入內容...</p>';
+  function toggleEditMode() {
+    if(!currentViewerFile||currentViewerFile.readonly||currentViewerFile.ext==="hw"){toast("無法編輯");return;}
+    isEditMode=!isEditMode;
+    const c=document.getElementById("viewerContent");
+    const s=document.getElementById("viewerStatus");
+    const eb=document.getElementById("viewerEdit");
+    const saveTop=document.getElementById("viewerSaveTop");
+    const toolbar=document.getElementById("editorToolbar");
+    if(isEditMode){
+      currentViewerFile.rich=true;
+      c.contentEditable="true";
+      c.classList.add("edit-mode","rich");
+      if(!c.innerHTML.trim()) c.innerHTML = currentViewerFile.content || "<p>請輸入內容...</p>";
       c.focus();
-      s.textContent = '✏️ 編輯模式';
-      eb.innerHTML = '<i class="fa-solid fa-eye"></i> 檢視';
-      sb.style.display = 'inline-flex';
-      hasChanges = false;
+      s.textContent="✏️ 編輯模式";
+      eb.innerHTML='<i class="fa-solid fa-eye"></i> 檢視';
+      toolbar.classList.add("active");
+      saveTop.style.display="inline-flex";
+      viewerHasChanges = false;
     } else {
-      c.contentEditable = 'false';
-      c.classList.remove('edit-mode');
-      s.textContent = '唯讀模式';
-      eb.innerHTML = '<i class="fa-solid fa-pen-to-square"></i> 編輯';
-      sb.style.display = 'none';
-      currentFile.content = currentFile.rich ? c.innerHTML : c.innerText;
-      hasChanges = false;
-      isEdit = false;
+      if (viewerHasChanges) {
+        const modal = document.getElementById("confirmModal");
+        const msg = document.getElementById("confirmMsg");
+        msg.innerHTML = '有未儲存的變更，要儲存嗎？<div style="display:flex;gap:6px;justify-content:center;margin-top:10px;"><button class="btn primary" id="confirmExitSave">儲存並退出</button><button class="btn" id="confirmExitNo">不儲存</button><button class="btn" id="confirmExitCancel">取消</button></div>';
+        modal.classList.add("active");
+        document.getElementById("confirmYes").style.display = "none";
+        document.getElementById("confirmNo").style.display = "none";
+        document.getElementById("confirmExitSave").onclick = function() {
+          modal.classList.remove("active");
+          saveViewer();
+          exitEditMode();
+          restoreConfirmButtons();
+        };
+        document.getElementById("confirmExitNo").onclick = function() {
+          modal.classList.remove("active");
+          exitEditMode();
+          restoreConfirmButtons();
+        };
+        document.getElementById("confirmExitCancel").onclick = function() {
+          modal.classList.remove("active");
+          restoreConfirmButtons();
+        };
+        return;
+      }
+      exitEditMode();
     }
   }
 
+  function exitEditMode() {
+    const c=document.getElementById("viewerContent");
+    const s=document.getElementById("viewerStatus");
+    const eb=document.getElementById("viewerEdit");
+    const saveTop=document.getElementById("viewerSaveTop");
+    const toolbar=document.getElementById("editorToolbar");
+    c.contentEditable="false";
+    c.classList.remove("edit-mode");
+    s.textContent="唯讀模式";
+    eb.innerHTML='<i class="fa-solid fa-pen-to-square"></i> 編輯';
+    toolbar.classList.remove("active");
+    saveTop.style.display="none";
+    document.getElementById("moreMenuDropdown").classList.remove("show");
+    currentViewerFile.content = currentViewerFile.rich ? c.innerHTML : c.innerText;
+    viewerHasChanges = false;
+    isEditMode = false;
+    toast("已切換到檢視模式");
+  }
+
   function saveViewer() {
-    if (!currentFile) return;
-    const c = document.getElementById('viewerContent');
-    currentFile.content = currentFile.rich ? c.innerHTML : c.innerText;
-    currentFile.modified = Date.now();
-    saveData();
-    hasChanges = false;
-    toast('✅ 已儲存');
-    renderFiles();
-    document.getElementById('saveViewerBtn').style.display = 'none';
+    if(!currentViewerFile)return;
+    if(currentViewerFile.ext==="hw"){currentViewerFile.modified=Date.now();safeRender();toast(".hw 已儲存");return;}
+    const c=document.getElementById("viewerContent");
+    currentViewerFile.content=currentViewerFile.rich?c.innerHTML:c.innerText;
+    currentViewerFile.modified=Date.now();
+    viewerHasChanges = false;
+    toast("✅ 已儲存");
+    safeRender();
   }
 
   function downloadFile() {
-    if (!currentFile) return;
-    const content = currentFile.content || '';
-    const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = currentFile.name;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
-    toast('已下載');
+    if(!currentViewerFile)return;
+    let content=currentViewerFile.ext==="hw"?JSON.stringify(currentViewerFile.hwData||{},null,2):(currentViewerFile.rich?currentViewerFile.content:currentViewerFile.content||"");
+    const blob=new Blob([content],{type:"text/plain;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+    a.href=url;a.download=currentViewerFile.name;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);toast("已下載");
+  }
+
+  // 監聽編輯器內容變更
+  document.addEventListener('input', function(e) {
+    if (e.target.id === 'viewerContent' && isEditMode) {
+      viewerHasChanges = true;
+    }
+  });
+
+  // ===== 屬性 =====
+  function openProperties(doc) {
+    editingItem=doc;
+    document.getElementById("propTitle").textContent=doc.name+" 屬性";
+    document.getElementById("propName").value=doc.name;
+    document.getElementById("propStatus").value=doc.status;
+    document.getElementById("propSubject").value=doc.subject;
+    document.getElementById("propClass").value=doc.className;
+    document.getElementById("propDue").value=doc.due;
+    document.getElementById("propPriority").value=doc.priority;
+    document.getElementById("propReadonly").checked=doc.readonly;
+    document.getElementById("propModal").classList.add("active");
+  }
+
+  function saveProperties() {
+    if(!editingItem)return;
+    editingItem.name=document.getElementById("propName").value.trim()||editingItem.name;
+    editingItem.ext=getExt(editingItem.name);const m=getTypeMeta(editingItem.ext);
+    editingItem.icon=m[0];editingItem.color=m[1];editingItem.typeLabel=m[2];
+    if(editingItem.ext==="hw"&&!editingItem.hwData)editingItem.hwData=createDefaultHwData();
+    editingItem.status=document.getElementById("propStatus").value;
+    editingItem.subject=document.getElementById("propSubject").value.trim()||"班務";
+    editingItem.className=document.getElementById("propClass").value.trim()||"未分類";
+    editingItem.due=document.getElementById("propDue").value||editingItem.due;
+    editingItem.priority=document.getElementById("propPriority").value;
+    editingItem.readonly=document.getElementById("propReadonly").checked;
+    editingItem.modified=Date.now();
+    closeProperties();
+    safeRender();
+    toast("屬性已更新");
+  }
+
+  function closeProperties() { document.getElementById("propModal").classList.remove("active"); editingItem=null; }
+
+  // ===== 重新命名 =====
+  function renameDoc(doc) {
+    const newName = prompt("新文件名稱：", doc.name);
+    if(!newName||!newName.trim())return;
+    doc.name=newName.trim();doc.ext=getExt(doc.name);const m=getTypeMeta(doc.ext);
+    doc.icon=m[0];doc.color=m[1];doc.typeLabel=m[2];
+    if(doc.ext==="hw"&&!doc.hwData)doc.hwData=createDefaultHwData();
+    doc.modified=Date.now();safeRender();toast("已重新命名");
+  }
+
+  // ===== 刪除 =====
+  function deleteDoc(doc) {
+    showConfirm("確定要刪除「"+doc.name+"」嗎？此動作無法復原。", function() {
+      data = data.filter(f=>f.id!==doc.id);
+      selectedId=null;
+      safeRender();
+      toast("已刪除");
+    });
+  }
+
+  // ===== 新增文件 =====
+  function createNewFile() {
+    const modal = document.getElementById("newFileModal");
+    document.getElementById("newFileName").value = "新班務文件.docx";
+    document.getElementById("newFileSubject").value = "班務";
+    document.getElementById("newFileClass").value = "3A";
+    document.getElementById("newFileDue").value = new Date().toISOString().slice(0,10);
+    modal.classList.add("active");
+  }
+
+  function confirmNewFile() {
+    const name = document.getElementById("newFileName").value.trim();
+    if(!name) { toast("請輸入文件名稱"); return; }
+    const subject = document.getElementById("newFileSubject").value.trim() || "班務";
+    const className = document.getElementById("newFileClass").value.trim() || "未分類";
+    const due = document.getElementById("newFileDue").value || new Date().toISOString().slice(0,10);
+    const ext = getExt(name);
+    const newFile = makeFile({id:Date.now(), name, status:"inbox", subject, className, due, priority:"中", content:"", hwData:ext==="hw"?createDefaultHwData():null});
+    data.unshift(newFile);
+    document.getElementById("newFileModal").classList.remove("active");
+    safeRender();
+    toast("✅ 已建立新文件：" + name);
+  }
+
+  // ===== 新 .hw =====
+  function createHwFile() {
+    const name = "F1A_功課追蹤.hw";
+    const newFile = makeFile({id:Date.now(), name, status:"inbox", subject:"功課追蹤", className:"F1A", due:new Date().toISOString().slice(0,10), priority:"高", hwData:createDefaultHwData()});
+    data.unshift(newFile);
+    safeRender();
+    toast("✅ 已建立 .hw 文件");
+  }
+
+  // ===== AI 智能建檔 =====
+  function processAI() {
+    const input=document.getElementById("aiInput"), text=input.value.trim();
+    if(!text){toast("請輸入描述"); return;}
+    let className="3A";const cm=text.match(/([1-6][A-D]|[一二三四五六][A-D]|F[1-6][A-D])班?/i);
+    if(cm){const map={"一":"1","二":"2","三":"3","四":"4","五":"5","六":"6"};let r=cm[1].toUpperCase();if(map[r[0]])r=map[r[0]]+r[1];className=r;}
+    let subject="班務",title="班務文件",ext="txt";
+    if(/\.hw|功課追蹤/.test(text)){subject="功課追蹤";title="功課追蹤";ext="hw";}
+    else if(/中文|作文/.test(text)){subject="中文";title="中文作文";ext="docx";}
+    else if(/數學|工作紙/.test(text)){subject="數學";title="數學工作紙";ext="xlsx";}
+    else if(/英文|默書/i.test(text)){subject="英文";title="英文默書";ext="pdf";}
+    const d=new Date();const abs=text.match(/(?:(\d+)月)?(\d+)(?:號|日)/);
+    if(abs){if(abs[1])d.setMonth(parseInt(abs[1])-1);d.setDate(parseInt(abs[2]));}
+    else if(/後日/.test(text))d.setDate(d.getDate()+2);
+    else if(/聽日|明日|明天/.test(text))d.setDate(d.getDate()+1);
+    else if(/下星期|下周/.test(text)){const wm=text.match(/(?:下星期|下周)([一二三四五六日天])/);if(wm){const wmap={日:0,天:0,一:1,二:2,三:3,四:4,五:5,六:6};d.setDate(d.getDate()+wmap[wm[1]]-d.getDay()+7);}else d.setDate(d.getDate()+7);}
+    const due=d.toISOString().slice(0,10),priority=/急|urgent/.test(text)?"高":"中",name=className+"_"+title+"."+ext;
+    const newFile = makeFile({id:Date.now(), name, status:"inbox", subject, className, due, priority, content:"", hwData:ext==="hw"?createDefaultHwData():null});
+    data.unshift(newFile);
+    input.value="";document.getElementById("aiPanel").classList.remove("active");safeRender();toast("✨ 已建立："+name);
+  }
+
+  // ===== .hw 系統 =====
+  function hwEnsure(doc){if(!doc.hwData)doc.hwData=createDefaultHwData();const hw=doc.hwData;if(!hw.currentDate)hw.currentDate=new Date().toISOString().slice(0,10);if(!hw.currentClass)hw.currentClass="F1A";if(!hw.selectedSubjects)hw.selectedSubjects=[...hwSubjects];if(!hw.classes)hw.classes=createDefaultHwData().classes;if(!hw.records)hw.records={};const students=hw.classes[hw.currentClass]||[];if(!hw.records[hw.currentDate])hw.records[hw.currentDate]={};if(!hw.records[hw.currentDate][hw.currentClass])hw.records[hw.currentDate][hw.currentClass]={};students.forEach((_,idx)=>{if(!hw.records[hw.currentDate][hw.currentClass][idx])hw.records[hw.currentDate][hw.currentClass][idx]={};hwSubjects.forEach(sub=>{if(!hw.records[hw.currentDate][hw.currentClass][idx][sub])hw.records[hw.currentDate][hw.currentClass][idx][sub]="empty";});});}
+  function hwGet(doc,idx,sub){hwEnsure(doc);return doc.hwData.records[doc.hwData.currentDate][doc.hwData.currentClass][idx][sub]||"empty";}
+  function hwSet(doc,idx,sub,status){hwEnsure(doc);doc.hwData.records[doc.hwData.currentDate][doc.hwData.currentClass][idx][sub]=status;doc.modified=Date.now();save();}
+  function renderHwApp(doc,container){hwEnsure(doc);const hw=doc.hwData;container.innerHTML='<div class="hw-top"><div><h2 style="font-size:0.85rem;">🤖 .hw 功課追蹤</h2></div><div class="hw-row"><input class="input" type="date" id="hwDate" value="'+esc(hw.currentDate)+'" style="width:130px;height:28px;font-size:0.65rem;padding:2px 8px;"><button class="btn" id="hwAddClass" style="padding:2px 10px;font-size:0.65rem;">+ 班級</button><button class="btn primary" id="hwSave" style="padding:2px 10px;font-size:0.65rem;">儲存</button></div></div><div class="hw-panel"><div class="hw-chips" id="hwClasses"></div></div><div class="hw-panel"><div style="font-size:0.6rem;font-weight:850;margin-bottom:2px;">📚 科目</div><div class="hw-subjects" id="hwSubjects"></div></div><div class="hw-panel"><div class="hw-row"><button class="btn" data-hw-batch="submitted" style="padding:2px 8px;font-size:0.6rem;">✓ 全班已交</button><button class="btn" data-hw-batch="late" style="padding:2px 8px;font-size:0.6rem;">✗ 全班欠交</button><button class="btn" data-hw-batch="absent" style="padding:2px 8px;font-size:0.6rem;">A 全班缺席</button><button class="btn" data-hw-batch="empty" style="padding:2px 8px;font-size:0.6rem;">◻ 清空</button></div><div class="hw-ai-box"><input class="input" id="hwCommand" placeholder="例：除 #5 外全班已交" style="height:26px;font-size:0.6rem;padding:2px 8px;"><button class="btn ai" id="hwRunCommand" style="padding:2px 10px;font-size:0.6rem;">執行</button></div></div><div class="hw-panel hw-report" id="hwReport"></div><div class="hw-table-wrap"><table class="hw-table" id="hwTable"></table></div>';
+    document.getElementById("hwDate").onchange=e=>{hw.currentDate=e.target.value;hwEnsure(doc);renderHwApp(doc,container);};
+    document.getElementById("hwSave").onclick=()=>{saveViewer();};
+    document.getElementById("hwAddClass").onclick=()=>{hwAddClass(doc);};
+    document.querySelectorAll("[data-hw-batch]").forEach(btn=>{btn.onclick=()=>{hwBatch(doc,btn.dataset.hwBatch);renderHwApp(doc,container);};});
+    document.getElementById("hwRunCommand").onclick=()=>{const cmd=document.getElementById("hwCommand").value.trim();if(cmd&&!hwParseCommand(doc,cmd))toast("無法識別指令");renderHwApp(doc,container);};
+    renderHwClasses(doc);renderHwSubjects(doc);renderHwReport(doc);renderHwTable(doc,container);
+  }
+  function renderHwClasses(doc){const box=document.getElementById("hwClasses");box.innerHTML="";Object.keys(doc.hwData.classes).sort().forEach(cls=>{const c=document.createElement("div");c.className="hw-chip"+(cls===doc.hwData.currentClass?" active":"");c.textContent=cls;c.onclick=()=>{doc.hwData.currentClass=cls;hwEnsure(doc);renderHwApp(doc,document.getElementById("viewerContent"));};box.appendChild(c);});}
+  function renderHwSubjects(doc){const box=document.getElementById("hwSubjects");box.innerHTML="";hwSubjects.forEach(sub=>{const item=document.createElement("div");item.className="hw-subject"+(doc.hwData.selectedSubjects.includes(sub)?" active":"");item.textContent=sub;item.onclick=()=>{if(doc.hwData.selectedSubjects.includes(sub))doc.hwData.selectedSubjects=doc.hwData.selectedSubjects.filter(s=>s!==sub);else doc.hwData.selectedSubjects.push(sub);renderHwApp(doc,document.getElementById("viewerContent"));};box.appendChild(item);});}
+  function renderHwReport(doc){const hw=doc.hwData,students=hw.classes[hw.currentClass]||[],subs=hw.selectedSubjects.length?hw.selectedSubjects:hwSubjects;let submitted=0,late=0,absent=0;students.forEach((_,idx)=>{subs.forEach(sub=>{const st=hwGet(doc,idx,sub);if(st==="submitted")submitted++;else if(st==="late")late++;else if(st==="absent")absent++;});});const total=students.length*subs.length,rate=total?(submitted/total*100).toFixed(1):"0";document.getElementById("hwReport").innerHTML='<b>📊 統計</b> 完成率：<b>'+rate+'%</b> ✓'+submitted+' ✗'+late+' A'+absent;}
+  function renderHwTable(doc,container){hwEnsure(doc);const hw=doc.hwData,table=document.getElementById("hwTable"),students=hw.classes[hw.currentClass]||[];let html="<thead><tr><th class='hw-name'>姓名</th>";hwSubjects.forEach(sub=>{html+="<th>"+esc(sub)+"</th>";});html+="</tr></thead><tbody>";students.forEach((name,idx)=>{html+="<tr><td class='hw-name'>"+esc(name)+"</td>";hwSubjects.forEach(sub=>{const st=hwGet(doc,idx,sub);html+="<td><div class='hw-cell' data-hw-idx='"+idx+"' data-hw-sub='"+esc(sub)+"' data-status='"+st+"'>"+hwStatuses[st]+"</div></td>";});html+="</tr>";});html+="</tbody>";table.innerHTML=html;
+    table.querySelectorAll(".hw-cell").forEach(cell=>{cell.onclick=()=>{const idx=parseInt(cell.dataset.hwIdx),sub=cell.dataset.hwSub,cur=hwGet(doc,idx,sub),order=["empty","submitted","late","absent"],next=order[(order.indexOf(cur)+1)%order.length];hwSet(doc,idx,sub,next);renderHwApp(doc,container);};});}
+  function hwBatch(doc,status){const hw=doc.hwData,students=hw.classes[hw.currentClass]||[],subs=hw.selectedSubjects.length?hw.selectedSubjects:hwSubjects;students.forEach((_,idx)=>{subs.forEach(sub=>hwSet(doc,idx,sub,status));});toast("全班已設為："+status);}
+  function hwAddClass(doc){hwEnsure(doc);const className=prompt("請輸入新班級名稱（例如：F3A）：","F3A");if(!className||!className.trim())return;const newClass=className.trim().toUpperCase();if(doc.hwData.classes[newClass]){toast("班級 "+newClass+" 已存在");return;}doc.hwData.classes[newClass]=[];for(let i=1;i<=33;i++)doc.hwData.classes[newClass].push("學生"+String(i).padStart(2,"0"));doc.hwData.currentClass=newClass;doc.modified=Date.now();const container=document.getElementById("viewerContent");if(container&&currentViewerFile&&currentViewerFile.id===doc.id){renderHwApp(doc,container);}save();toast("✅ 已新增班級: "+newClass);}
+  function hwParseCommand(doc,cmd){const hw=doc.hwData,students=hw.classes[hw.currentClass]||[],subs=hw.selectedSubjects.length?hw.selectedSubjects:hwSubjects;const ex=cmd.match(/除\s*#?([\d,\s#]+)\s*外\s*全班\s*已交/i);if(ex){const ids=ex[1].split(/[,#\s]+/).filter(Boolean).map(Number);students.forEach((_,idx)=>{if(!ids.includes(idx+1))subs.forEach(sub=>hwSet(doc,idx,sub,"submitted"));});return true;}if(/全班\s*已交/.test(cmd)){hwBatch(doc,"submitted");return true;}if(/全班\s*欠交/.test(cmd)){hwBatch(doc,"late");return true;}if(/全班\s*缺席/.test(cmd)){hwBatch(doc,"absent");return true;}if(/全班\s*清空/.test(cmd)){hwBatch(doc,"empty");return true;}return false;}
+
+  // ===== 編輯器工具列 =====
+  function bindEditorToolbar() {
+    document.querySelectorAll("#editorToolbar [data-cmd]").forEach(btn => {
+      btn.addEventListener("mousedown", e => {
+        e.preventDefault();
+        const cmd = btn.dataset.cmd;
+        const content = document.getElementById("viewerContent");
+        if (!content.contentEditable || content.contentEditable !== "true") { toast("請先進入編輯模式"); return; }
+        if(cmd === "hiliteColor"){const color=document.getElementById("highlightPicker").value;document.execCommand("hiliteColor",false,color);}
+        else if(cmd === "foreColor"){const color=document.getElementById("textColorPicker").value;document.execCommand("foreColor",false,color);}
+        else if(cmd === "createTable"){const rows=prompt("列數：",3);const cols=prompt("行數：",3);if(rows&&cols){let table='<table style="width:100%;border-collapse:collapse;border:1px solid #ccc;">';for(let r=0;r<parseInt(rows);r++){table+='<tr>';for(let c=0;c<parseInt(cols);c++){table+='<td contenteditable="true" style="border:1px solid #ccc;padding:6px;min-width:40px;">&nbsp;</td>';}table+='</tr>';}table+='</table>';document.execCommand("insertHTML",false,table);}}
+        else if(cmd === "undo"){document.execCommand("undo",false,null);}
+        else if(cmd === "redo"){document.execCommand("redo",false,null);}
+        else{document.execCommand(cmd,false,null);}
+        content.focus();
+        viewerHasChanges = true;
+      });
+    });
+    document.getElementById("fontSizeSelect").addEventListener("change",function(){const content=document.getElementById("viewerContent");if(!content.contentEditable||content.contentEditable!=="true"){toast("請先進入編輯模式");return;}document.execCommand("fontSize",false,this.value);content.focus();viewerHasChanges=true;});
+    document.getElementById("fontFamilySelect").addEventListener("change",function(){const content=document.getElementById("viewerContent");if(!content.contentEditable||content.contentEditable!=="true"){toast("請先進入編輯模式");return;}document.execCommand("fontName",false,this.value);content.focus();viewerHasChanges=true;});
+    // 三點選單
+    document.getElementById("moreMenuToggle").addEventListener("click", function(e) {
+      e.stopPropagation();
+      document.getElementById("moreMenuDropdown").classList.toggle("show");
+    });
+    document.addEventListener("click", function(e) {
+      const wrapper = document.querySelector('.more-menu-wrapper');
+      if (wrapper && !wrapper.contains(e.target)) {
+        document.getElementById("moreMenuDropdown").classList.remove("show");
+      }
+    });
+    document.getElementById("moreMenuToggle").addEventListener("touchstart", function(e) {
+      e.preventDefault();
+      document.getElementById("moreMenuDropdown").classList.toggle("show");
+    }, { passive: false });
   }
 
   // ===== 事件綁定 =====
-  document.getElementById('newFileBtn').onclick = openNewFile;
-  document.getElementById('newHwBtn').onclick = createHw;
-  document.getElementById('confirmNewFileBtn').onclick = confirmNewFile;
-  document.getElementById('notifBtn').onclick = function() { renderNotifList(); document.getElementById('notifModal').classList.add('show'); };
-  document.getElementById('markAllBtn').onclick = markAllRead;
-  document.getElementById('sendNotifBtn').onclick = sendNotif;
-  document.getElementById('notifMsg').onkeydown = function(e) { if (e.key === 'Enter') sendNotif(); };
-  document.getElementById('editBtn').onclick = toggleEdit;
-  document.getElementById('saveViewerBtn').onclick = saveViewer;
-  document.getElementById('downloadBtn').onclick = downloadFile;
-  document.getElementById('viewerModal').onclick = function(e) { if (e.target === this) closeViewer(); };
-
-  function closeNotif() { document.getElementById('notifModal').classList.remove('show'); }
-  window.closeNotif = closeNotif;
-  window.closeNewFile = closeNewFile;
-  window.closeViewer = closeViewer;
-  window.markRead = markRead;
+  function bindEvents() {
+    document.querySelectorAll(".nav-item[data-view]").forEach(item=>{item.addEventListener("click",()=>{document.querySelectorAll(".nav-item").forEach(n=>n.classList.remove("active"));item.classList.add("active");activeView=item.dataset.view;safeRender();});});
+    document.getElementById("themeToggle").addEventListener("click",()=>{darkMode=!darkMode;document.documentElement.setAttribute("data-theme",darkMode?"dark":"light");});
+    document.getElementById("searchInput").addEventListener("input",e=>{searchQuery=e.target.value;safeRender();});
+    document.getElementById("subjectFilter").addEventListener("change",e=>{subjectFilter=e.target.value;safeRender();});
+    document.getElementById("typeFilter").addEventListener("change",e=>{typeFilter=e.target.value;safeRender();});
+    document.getElementById("sortSelect").addEventListener("change",e=>{currentSort=e.target.value;safeRender();});
+    document.getElementById("btnNewFile").addEventListener("click",createNewFile);
+    document.getElementById("btnNewHw").addEventListener("click",createHwFile);
+    document.getElementById("btnAIToggle").addEventListener("click",()=>{const p=document.getElementById("aiPanel");p.classList.toggle("active");if(p.classList.contains("active"))document.getElementById("aiInput").focus();});
+    document.getElementById("btnAiSubmit").addEventListener("click",processAI);
+    document.getElementById("aiInput").addEventListener("keydown",e=>{if(e.key==="Enter")processAI();});
+    document.getElementById("btnPrevMonth").addEventListener("click",()=>{currentMonth--;if(currentMonth<1){currentMonth=12;currentYear--;}safeRender();});
+    document.getElementById("btnNextMonth").addEventListener("click",()=>{currentMonth++;if(currentMonth>12){currentMonth=1;currentYear++;}safeRender();});
+    document.getElementById("btnToday").addEventListener("click",()=>{const t=new Date();currentYear=t.getFullYear();currentMonth=t.getMonth()+1;safeRender();});
+    document.addEventListener("click",e=>{if(!e.target.closest("#ctxMenu"))hideContextMenu();});
+    document.getElementById("ctxOpen").addEventListener("click",()=>{const item=getCtxItem();if(item)openViewer(item);hideContextMenu();});
+    document.getElementById("ctxProps").addEventListener("click",()=>{const item=getCtxItem();if(item)openProperties(item);hideContextMenu();});
+    document.getElementById("ctxRename").addEventListener("click",()=>{const item=getCtxItem();if(item)renameDoc(item);hideContextMenu();});
+    document.getElementById("ctxDelete").addEventListener("click",()=>{const item=getCtxItem();if(item)deleteDoc(item);hideContextMenu();});
+    document.getElementById("viewerEdit").addEventListener("click",toggleEditMode);
+    document.getElementById("viewerSaveTop").addEventListener("click",saveViewer);
+    document.getElementById("viewerDownload").addEventListener("click",downloadFile);
+    document.getElementById("viewerClose").addEventListener("click",confirmCloseViewer);
+    document.getElementById("viewerCancel").addEventListener("click",confirmCloseViewer);
+    document.getElementById("viewerSaveClose").addEventListener("click",()=>{saveViewer();closeViewer();});
+    document.getElementById("viewerModal").addEventListener("click",e=>{if(e.target.id==="viewerModal")confirmCloseViewer();});
+    document.getElementById("propClose").addEventListener("click",closeProperties);
+    document.getElementById("propCancel").addEventListener("click",closeProperties);
+    document.getElementById("propSave").addEventListener("click",saveProperties);
+    document.getElementById("propModal").addEventListener("click",e=>{if(e.target.id==="propModal")closeProperties();});
+    document.getElementById("newFileClose").addEventListener("click",()=>document.getElementById("newFileModal").classList.remove("active"));
+    document.getElementById("newFileCancel").addEventListener("click",()=>document.getElementById("newFileModal").classList.remove("active"));
+    document.getElementById("newFileConfirm").addEventListener("click",confirmNewFile);
+    document.getElementById("newFileModal").addEventListener("click",e=>{if(e.target.id==="newFileModal")document.getElementById("newFileModal").classList.remove("active");});
+    document.getElementById("confirmYes").addEventListener("click",()=>{document.getElementById("confirmModal").classList.remove("active");if(confirmCallback)confirmCallback('save');confirmCallback=null;restoreConfirmButtons();});
+    document.getElementById("confirmNo").addEventListener("click",()=>{document.getElementById("confirmModal").classList.remove("active");if(confirmCallback)confirmCallback('nosave');confirmCallback=null;restoreConfirmButtons();});
+    document.getElementById("confirmModal").addEventListener("click",e=>{if(e.target.id==="confirmModal"){document.getElementById("confirmModal").classList.remove("active");confirmCallback=null;restoreConfirmButtons();}});
+    document.getElementById("notificationBtn").addEventListener("click", function() {
+      renderNotificationList();
+      document.getElementById("notificationModal").classList.add("active");
+    });
+    document.getElementById("notificationClose").addEventListener("click", function() {
+      document.getElementById("notificationModal").classList.remove("active");
+    });
+    document.getElementById("notificationModalClose").addEventListener("click", function() {
+      document.getElementById("notificationModal").classList.remove("active");
+    });
+    document.getElementById("notificationModal").addEventListener("click", function(e) {
+      if (e.target === this) document.getElementById("notificationModal").classList.remove("active");
+    });
+    document.getElementById("notificationMarkAll").addEventListener("click", markAllRead);
+    document.getElementById("notifSendBtn").addEventListener("click", sendNotification);
+    document.getElementById("notifMessage").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") { e.preventDefault(); sendNotification(); }
+    });
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"){hideContextMenu();closeProperties();confirmCloseViewer();document.getElementById("newFileModal").classList.remove("active");document.getElementById("confirmModal").classList.remove("active");document.getElementById("notificationModal").classList.remove("active");document.getElementById("moreMenuDropdown").classList.remove("show");}});
+    bindEditorToolbar();
+  }
 
   // ===== 初始化 =====
-  renderFiles();
-  loadNotifs();
-  setInterval(loadNotifs, 30000);
-  toast('📚 珊瑚小助 · 老師版 已啟動');
+  bindEvents();
+  renderAll();
+  loadNotifications();
+  setInterval(loadNotifications, 30000);
+  toast("珊瑚小助 · 老師版 已啟動");
 })();
 </script>
 </body>
