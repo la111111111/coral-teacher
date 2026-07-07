@@ -1073,6 +1073,21 @@ button, input, select, textarea { font-family: inherit; }
   setInterval(loadNotifications, 30000);
   toast("珊瑚小助 · 老師版 已啟動");
 })();
+  // ============================================================
+//  補上缺失的函數
+// ============================================================
+
+let renderTimer = null;
+
+function safeRender() {
+    clearTimeout(renderTimer);
+    renderTimer = setTimeout(renderAll, 50);
+}
+
+function renderAll() {
+    renderFiles();
+    updateNotificationBadge();
+}
 </script>
 </body>
 </html>
