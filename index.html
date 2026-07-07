@@ -528,23 +528,16 @@ button, input, select, textarea { font-family: inherit; }
     if (saved) { const parsed = JSON.parse(saved); if (Array.isArray(parsed)) data = parsed.map(makeFile); }
   } catch(e) {}
   if (data.length === 0) data = seed.slice();
-  function save()   // ============================================================
-  //  資料儲存與載入
   // ============================================================
-
-  let data = [];
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) { const parsed = JSON.parse(saved); if (Array.isArray(parsed)) data = parsed.map(makeFile); }
-  } catch(e) {}
-  if (data.length === 0) data = seed.slice();
+  //  資料儲存
+  // ============================================================
 
   function save() {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
   }
 
   // ============================================================
-  //  渲染函數（補上 safeRender）
+  //  渲染函數
   // ============================================================
 
   let renderTimer = null;
@@ -555,7 +548,6 @@ button, input, select, textarea { font-family: inherit; }
   }
 
   function renderAll() {
-    // 重新整理所有畫面
     renderFiles();
     updateNotificationBadge();
   }
@@ -577,14 +569,7 @@ button, input, select, textarea { font-family: inherit; }
   let currentYear = new Date().getFullYear();
   let currentMonth = new Date().getMonth() + 1;
   let confirmCallback = null;
-  let viewerHasChanges = false;{ try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {} }
-
-  let activeView="kanban", currentSort="due", subjectFilter="all", typeFilter="all", searchQuery="", darkMode=false;
-  let selectedId=null, currentViewerFile=null, isEditMode=false, editingItem=null;
-  let currentYear=new Date().getFullYear(), currentMonth=new Date().getMonth()+1, renderTimer=null;
-  let confirmCallback=null;
   let viewerHasChanges = false;
-
   function dueInfo(due) {
     const t=new Date(), td=new Date(t.getFullYear(),t.getMonth(),t.getDate()), dd=new Date(due+"T00:00:00");
     const diff=Math.ceil((dd-td)/86400000);
